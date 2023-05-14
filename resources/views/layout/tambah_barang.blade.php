@@ -122,6 +122,7 @@
       <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
     </div> -->
   </aside>
+
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
@@ -180,111 +181,57 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-12">
-        @if (session('success'))
-            <div class="alert alert-success text-white">
-                {{ session('success') }}
-            </div>
-        @elseif (session('danger'))
-            <div class="alert alert-danger text-white">
-                {{ session('danger') }}
-            </div>
-        @endif
-          <div class="card mb-4">
+        <div class="col-md-12">
+          <div class="card">
             <div class="card-header pb-0">
-              <h5>List Pengelola Barang</h5>
-              <a href="/addBarang" class="btn btn-primary float-end" style="margin-top:-35px;">
-                <i class="fa fa-plus mr-1"></i> Tambah Barang
-              </a>
-            </div>
-            <div class="card-body px-0 pt-0 pb-2">
-              <div class="table-responsive mx-4 text-center">
-                <table class="table text-center align-items-center mb-0" id="tabel">
-                  <thead>
-                    <tr>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Merek Barang</th>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jenis Barang</th>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kategori</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah Stok</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Lokasi Penempatan</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
-                      <!-- Kondisi dimana user yang tidak login tidak akan diberikan privilege untuk mengubah stok -->
-                    </tr>
-                  </thead>
-                  <tbody>
-                  @foreach($barangs as $barang)
-                    <tr>
-                      <td> 
-                        <div class="d-flex px-2 py-1">
-                          <h4 class="mb-0 text-sm">{{$loop->iteration}}</h4>
-                        </div>
-                      </td>
-                      <td>
-                        <p class="text-sm text-uppercase font-weight-bold mb-0">{{$barang->merek}}</p>
-                      </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{$barang->jenis_barang}}</p>
-                      </td>
-                      <td class="align-middle text-center text-sm">
-                        <p class="text-xs font-weight-bold mb-0">{{$barang->kategori}}</p>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{$barang->jumlah_stok}}</span>
-                      </td>
-                      <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">{{$barang->lokasi}}</span>
-                      </td>
-                      <td class="align-middle">
-                        <a href="{{ route('barang.edit', $barang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit barang">
-                          <span class="badge badge-sm bg-gradient-success"><i class="fa fa-pen"></i> Edit</span>
-                        </a>
-                      </td>
-                    </tr>
-                    @endforeach
-                  </tbody>
-                </table>
+              <div class="d-flex align-items-center">
+                <h5 class="mb-0">Tambah Data Barang</h5>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <!-- Modal Tambah Barang -->
-      <div class="modal fade" id="tambahBarangModal" tabindex="-1" role="dialog" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="tambahBarangModalLabel">Tambah Barang</h5>
-              <a href="" class=""></a>
+            <div class="card-body">
+              <form action="/addBarang" method="POST" role="form">
+              @csrf
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Merek Barang</label>
+                    <input class="form-control" required autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Jenis Barang</label>
+                    <input class="form-control" required autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Kategori Barang</label>
+                    <input class="form-control" required autocomplete="off" type="text" name="kategori" placeholder="Kategori Barang....">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>
+                    <input class="form-control" required autocomplete="off" type="number" name="stok" placeholder="Stok Barang....">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Lokasi Barang</label>
+                    <input class="form-control" required autocomplete="off" type="text" name="lokasi" placeholder="Lokasi Barang....">
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <button class="form-control btn btn-md btn-success" type="submit"><i class="fa fa-plus"></i> | TAMBAH BARANG </button>
+                  </div>
+                </div>
+              </div>
+              </form>
             </div>
-            <div class="modal-body">
-              <form action="/tambahBarang" method="POST" id="tambahBarangModal">
-                <div class="form-group">
-                  <label for="merek">Merek Barang</label>
-                  <input type="text" class="form-control" name="merek" id="merek" required>
-                </div>
-                <div class="form-group">
-                  <label for="jenis_barang">Jenis Barang</label>
-                  <input type="text" class="form-control" name="jenis_barang" id="jenis_barang" required>
-                </div>
-                <div class="form-group">
-                  <label for="kategori">Kategori Barang</label>
-                  <input type="text" class="form-control" name="kategori" id="kategori" required>
-                </div>
-                <div class="form-group">
-                  <label for="jumlah_stok">Jumlah Stok Barang</label>
-                  <input type="text" class="form-control" name="jumlah_stok" id="jumlah_stok" required>
-                </div>
-                <div class="form-group">
-                  <label for="lokasi">Lokasi Barang</label>
-                  <input type="text" class="form-control" name="lokasi" id="lokasi" required>
-                </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary"><i class="fa fa-pen"></i> Tambah</button>
-            </div>
-            </form>
           </div>
         </div>
       </div>
@@ -321,6 +268,78 @@
       </footer>
     </div>
   </main>
+  <div class="fixed-plugin">
+    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
+      <i class="fa fa-cog py-2"> </i>
+    </a>
+    <div class="card shadow-lg">
+      <div class="card-header pb-0 pt-3 ">
+        <div class="float-start">
+          <h5 class="mt-3 mb-0">Argon Configurator</h5>
+          <p>See our dashboard options.</p>
+        </div>
+        <div class="float-end mt-4">
+          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
+            <i class="fa fa-close"></i>
+          </button>
+        </div>
+        <!-- End Toggle Button -->
+      </div>
+      <hr class="horizontal dark my-1">
+      <div class="card-body pt-sm-3 pt-0 overflow-auto">
+        <!-- Sidebar Backgrounds -->
+        <div>
+          <h6 class="mb-0">Sidebar Colors</h6>
+        </div>
+        <a href="javascript:void(0)" class="switch-trigger background-color">
+          <div class="badge-colors my-2 text-start">
+            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
+            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
+          </div>
+        </a>
+        <!-- Sidenav Type -->
+        <div class="mt-3">
+          <h6 class="mb-0">Sidenav Type</h6>
+          <p class="text-sm">Choose between 2 different sidenav types.</p>
+        </div>
+        <div class="d-flex">
+          <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
+          <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
+        </div>
+        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
+        <!-- Navbar Fixed -->
+        <div class="d-flex my-3">
+          <h6 class="mb-0">Navbar Fixed</h6>
+          <div class="form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
+          </div>
+        </div>
+        <hr class="horizontal dark my-sm-4">
+        <div class="mt-2 mb-5 d-flex">
+          <h6 class="mb-0">Light / Dark</h6>
+          <div class="form-check form-switch ps-0 ms-auto my-auto">
+            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
+          </div>
+        </div>
+        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free Download</a>
+        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View documentation</a>
+        <div class="w-100 text-center">
+          <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
+          <h6 class="mt-3">Thank you for sharing!</h6>
+          <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
+          </a>
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
+            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>

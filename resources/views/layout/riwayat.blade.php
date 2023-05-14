@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
+  <meta charset="utf-8" />    
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="apple-touch-icon" sizes="76x76" href="{{asset('assets/img/apple-icon.png')}}">
   <link rel="icon" type="image/png" href="{{asset('assets/img/favicon.png')}}">
@@ -15,14 +15,11 @@
   <link href="{{asset('assets/css/nucleo-icons.css')}}" rel="stylesheet" />
   <link href="{{asset('assets/css/nucleo-svg.css')}}" rel="stylesheet" />
   <!-- Font Awesome Icons -->
+  <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+  <link href="{{asset('assets/icon/css/all.css')}}" rel="stylesheet" />
   <script src="{{asset('assets/js/kitFontAwesome.js')}}" crossorigin="anonymous"></script>
   <link href="{{asset('assets/icon/css/all.css')}}" rel="stylesheet" />
   <link rel="stylesheet" href="{{asset('assets/css/jquery.dataTables.min.css')}}">
-  <style>
-    .fc-month-view .fc-today {
-      background-color: blue;
-    }
-  </style>
   <!-- CSS Files -->
   <link id="pagestyle" href="{{asset('assets/css/argon-dashboard.css?v=2.0.1')}}" rel="stylesheet" />
 </head>
@@ -42,8 +39,8 @@
     <hr class="horizontal dark mt-0">
     <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="/menu">
+      <li class="nav-item">
+          <a class="nav-link" href="/menu">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-tv-2 text-primary text-sm opacity-10"></i>
             </div>
@@ -51,7 +48,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/barang">
+          <a class="nav-link" href="/barang">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-box-2 text-warning text-sm opacity-10"></i>
             </div>
@@ -59,7 +56,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/riwayat">
+          <a class="nav-link active" href="/riwayat">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-cart text-success text-sm opacity-10"></i>
             </div>
@@ -75,14 +72,38 @@
           </a>
         </li>
         <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
         </li>
         <li class="nav-item">
           <a class="nav-link " href="../pages/profile.html">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
             </div>
-            <span class="nav-link-text ms-1">Profile</span>
+            <span class="nav-link-text ms-1">Data Diri</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../pages/profile.html">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-group text-secondary text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Data Admin</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../pages/sign-in.html">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Log-In</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link " href="../pages/sign-up.html">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="ni ni-collection text-info text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Daftar Akun</span>
           </a>
         </li>
       </ul>
@@ -110,7 +131,7 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">V-Warehouse</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Menu Utama</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Riwayat Transaksi</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -121,20 +142,21 @@
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
-
-              <ul class="dropdown-menu dropdown-menu-end  px-2 py-3 " aria-labelledby="dropdownMenuButton">
+              <!-- Ada kondisi dimana jika belum login maka akan ditampilkan tombol login, jika sudah login maka akan tampil nama user -->
+              <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa fa-user me-sm-1"></i>
+                <span class="d-sm-inline d-none">Akhmad Ridlo</span>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end px-2 py-3 " aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#dataDiri" >
                         <i class="fa fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i> Data Diri
                     </a>
                     <a class="dropdown-item" href="admin.php" >
                         <i class="fa fa-user-alt fa-sm fa-fw mr-2 text-gray-400"></i> Data Admin
                     </a>
-                    <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logout">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                     </a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
               </ul>
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
@@ -149,196 +171,202 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
       <div class="row">
-      @if (session('success'))
-          <div class="alert alert-success text-white">
-              {{ session('success') }}
-          </div>
-      @endif
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-9">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Stok</p>
-                    <h5 class="font-weight-bolder">
-                      3000
-                    </h5>
-                    Box tersimpan
-                  </div>
-                </div>
-                <div class="col-3 text-end">
-                  <div class="icon icon-shape bg-gradient-primary shadow-primary text-center rounded-circle">
-                    <i class="ni ni-box-2 text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
+        <div class="col-12">
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h5>Riwayat Transaksi</h5>
             </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-9">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Kategori</p>
-                    <h5 class="font-weight-bolder">
-                      7
-                    </h5>
-                    Kategori barang
-                  </div>
-                </div>
-                <div class="col-3 text-end">
-                  <div class="icon icon-shape bg-gradient-info shadow-info text-center rounded-circle">
-                    <i class="ni ni-bullet-list-67 text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-9">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Jumlah Admin</p>
-                    <h5 class="font-weight-bolder">
-                      15
-                    </h5>
-                    Admin gudang
-                  </div>
-                </div>
-                <div class="col-3 text-end">
-                  <div class="icon icon-shape bg-gradient-secondary shadow-secondary text-center rounded-circle">
-                    <i class="ni ni-box-2 text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-          <div class="card">
-            <div class="card-body p-3">
-              <div class="row">
-                <div class="col-9">
-                  <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Riwayat Transaksi</p>
-                    <h5 class="font-weight-bolder">
-                      15
-                    </h5>
-                    kali transaksi
-                  </div>
-                </div>
-                <div class="col-3 text-end">
-                  <div class="icon icon-shape bg-gradient-success shadow-success text-center rounded-circle">
-                    <i class="ni ni-box-2 text-lg opacity-10" aria-hidden="true"></i>
-                  </div>
-                </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive mx-4 text-center">
+              <table class="table text-center align-items-center mb-0" id="tabel">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tanggal Transaksi</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Merek Barang</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nama Klien</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Jumlah Transaksi</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nominal Transaksi</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
+                      <!-- Kondisi dimana user yang tidak login tidak akan diberikan privilege untuk mengubah stok -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">1.</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">2023-4-30</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <h6 class="mb-0 text-sm">Indomie</h6>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">PT.Wings Indonesia</p>
+                      </td>
+                      <!-- Bila klien menjual berarti stok akan menamplkan tanda '+' didepan nominal, bila klien membeli maka jumlah transaksi ditandai dengan simbol '-' didepan angka -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">+100</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">Rp.7.000.000</p>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit user">
+                          <span class="badge badge-sm bg-gradient-danger"><i class="fa fa-trash"></i> Hapus</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">2.</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">2023-5-2</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <h6 class="mb-0 text-sm">ANTIMO</h6>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">PT.Phapros Medical Inc</p>
+                      </td>
+                      <!-- Bila klien menjual berarti stok akan menamplkan tanda '+' didepan nominal, bila klien membeli maka jumlah transaksi ditandai dengan simbol '-' didepan angka -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">-300</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">Rp.9.000.000</p>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit user">
+                          <span class="badge badge-sm bg-gradient-danger"><i class="fa fa-trash"></i> Hapus</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">3.</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">2023-5-5</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <h6 class="mb-0 text-sm">Sinar Dunia</h6>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">PT.Sinar Mas</p>
+                      </td>
+                      <!-- Bila klien menjual berarti stok akan menamplkan tanda '+' didepan nominal, bila klien membeli maka jumlah transaksi ditandai dengan simbol '-' didepan angka -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">+250</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">Rp.5.000.000</p>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit user">
+                          <span class="badge badge-sm bg-gradient-danger"><i class="fa fa-trash"></i> Hapus</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">4.</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">2023-5-10</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <h6 class="mb-0 text-sm">IKEA Standing Lamp</h6>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">IKEA Industries</p>
+                      </td>
+                      <!-- Bila klien menjual berarti stok akan menamplkan tanda '+' didepan nominal, bila klien membeli maka jumlah transaksi ditandai dengan simbol '-' didepan angka -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">+75</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">Rp.15.000.000</p>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit user">
+                          <span class="badge badge-sm bg-gradient-danger"><i class="fa fa-trash"></i> Hapus</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">1.</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">2023-4-30</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <h6 class="mb-0 text-sm">Indomie</h6>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">PT.Wings Indonesia</p>
+                      </td>
+                      <!-- Bila klien menjual berarti stok akan menamplkan tanda '+' didepan nominal, bila klien membeli maka jumlah transaksi ditandai dengan simbol '-' didepan angka -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">+100</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">Rp.7.000.000</p>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit user">
+                          <span class="badge badge-sm bg-gradient-danger"><i class="fa fa-trash"></i> Hapus</span>
+                        </a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">1.</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">2023-4-30</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <h6 class="mb-0 text-sm">Indomie</h6>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">PT.Wings Indonesia</p>
+                      </td>
+                      <!-- Bila klien menjual berarti stok akan menamplkan tanda '+' didepan nominal, bila klien membeli maka jumlah transaksi ditandai dengan simbol '-' didepan angka -->
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">+100</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">Rp.7.000.000</p>
+                      </td>
+                      <td class="align-middle">
+                        <a href="javascript:;" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit user">
+                          <span class="badge badge-sm bg-gradient-danger"><i class="fa fa-trash"></i> Hapus</span>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div class="row mt-4">
-        <div class="col-lg-7 mb-lg-0 mb-4">
-          <div class="card">
-            <div class="card-header pb-0 p-3">
-              <h4 class="mb-0">Real-time Calendar</h4>
-              <button type="button" class="btn btn-primary float-end" style="margin-top:-35px;" data-bs-toggle="modal" data-bs-target="#addEventModal"><i class="fa fa-plus mr-1"></i> Tambah Jadwal</button>
-            </div>
-            <div class="card-body">
-              <div id="calendar"></div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-5">
-          <div class="card card-carousel overflow-hidden h-100 p-0">
-            <div id="carouselExampleCaptions" class="carousel slide h-100" data-bs-ride="carousel">
-              <div class="carousel-inner border-radius-lg h-100">
-                <div class="carousel-item h-100 active" style="background-image: url('../assets/img/carousel-1.jpeg');
-                background-size: cover;">
-                <span class="mask bg-primary opacity-3"></span>
-                  <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                    <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                      <i class="ni ni-camera-compact text-dark opacity-10"></i>
-                    </div>
-                    <h5 class="text-white mb-1">Aplikasi Manajemen Gudang</h5>
-                    <p>Dengan fitur tambah,edit dan hapus stok barang!!</p>
-                  </div>
-                </div>
-                <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-2.jpg');
-                background-size: cover; background-position-x:50%;">
-                <span class="mask bg-primary opacity-3"></span>
-                  <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                    <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                      <i class="ni ni-bulb-61 text-dark opacity-10"></i>
-                    </div>
-                    <h5 class="text-white mb-1">Beragam Fitur!!</h5>
-                    <p>Terintegrasi dengan database yang dapat meningkatkan efisiensi waktu!!</p>
-                  </div>
-                </div>
-                <div class="carousel-item h-100" style="background-image: url('../assets/img/carousel-3.jpeg');
-                background-size: cover; background-position-x:50%;">
-                <span class="mask bg-primary opacity-3"></span>
-                  <div class="carousel-caption d-none d-md-block bottom-0 text-start start-0 ms-5">
-                    <div class="icon icon-shape icon-sm bg-white text-center border-radius-md mb-3">
-                      <i class="ni ni-trophy text-dark opacity-10"></i>
-                    </div>
-                    <h5 class="text-white mb-1">Dibuat sebagai Projek Ujian Akhir Semester</h5>
-                    <p>"Gatau mau nulis apa, yaudah tulis nama aja deh" ucap Akhmad Ridlo</p>
-                  </div>
-                </div>
-              </div>
-              <button class="carousel-control-prev w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next w-5 me-3" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!-- Modal Tambah Event
-      <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="modalTambah" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalTambah">Tambah Event</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form id="tambahEvent" method="POST">
-                <div class="form-group">
-                  <label for="eventTitle">Judul Event</label>
-                  <input type="text" class="form-control" id="eventTitle" name="title" required>
-                </div>
-                <div class="form-group">
-                  <label for="eventDate">Tanggal</label>
-                  <input type="date" class="form-control" id="eventDate" name="date" required>
-                </div>
-                <div class="form-group">
-                  <label for="eventTime">Waktu</label>
-                  <input type="time" class="form-control" id="eventTime" name="time" required>
-                </div>
-                <div class="form-group">
-                  <label for="eventDescription">Deskripsi Event</label>
-                  <textarea class="form-control" id="eventDescription" name="description" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Tambah</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> -->
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">
@@ -449,129 +477,8 @@
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/chartjs.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.dataTables.min.js')}}"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" rel="stylesheet" />
-  <script>
-    var ctx1 = document.getElementById("chart-line").getContext("2d");
-
-    var gradientStroke1 = ctx1.createLinearGradient(0, 230, 0, 50);
-
-    gradientStroke1.addColorStop(1, 'rgba(94, 114, 228, 0.2)');
-    gradientStroke1.addColorStop(0.2, 'rgba(94, 114, 228, 0.0)');
-    gradientStroke1.addColorStop(0, 'rgba(94, 114, 228, 0)');
-    new Chart(ctx1, {
-      type: "line",
-      data: {
-        labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-        datasets: [{
-          label: "Mobile apps",
-          tension: 0.4,
-          borderWidth: 0,
-          pointRadius: 0,
-          borderColor: "#5e72e4",
-          backgroundColor: gradientStroke1,
-          borderWidth: 3,
-          fill: true,
-          data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
-          maxBarThickness: 6
-
-        }],
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: {
-            display: false,
-          }
-        },
-        interaction: {
-          intersect: false,
-          mode: 'index',
-        },
-        scales: {
-          y: {
-            grid: {
-              drawBorder: false,
-              display: true,
-              drawOnChartArea: true,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              padding: 10,
-              color: '#fbfbfb',
-              font: {
-                size: 11,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-          x: {
-            grid: {
-              drawBorder: false,
-              display: false,
-              drawOnChartArea: false,
-              drawTicks: false,
-              borderDash: [5, 5]
-            },
-            ticks: {
-              display: true,
-              color: '#ccc',
-              padding: 20,
-              font: {
-                size: 11,
-                family: "Open Sans",
-                style: 'normal',
-                lineHeight: 2
-              },
-            }
-          },
-        },
-      },
-    });
-  </script>
-  <script>
- $(document).ready(function() {
-    $('#calendar').fullCalendar({
-      header: {
-        left: 'prev,next today',
-        center: 'title',
-        right: 'month,agendaWeek,agendaDay'
-      },
-      navLinks: true,
-      selectable: true,
-      selectHelper: true,
-      editable: true,
-      eventLimit: true,
-      eventClick: function(calEvent, jsEvent, view) {
-        alert('Event: ' + calEvent.title);
-      }
-    });
-  });
-  $(document).ready(function() {
-
-  // Tambah event
-  $('#tambahEvent').submit(function(event) {
-    event.preventDefault();
-    var eventData = {
-      title: $('#eventTitle').val(),
-      start: $('#eventDate').val() + 'T' + $('#eventTime').val(),
-      description: $('#eventDescription').val()
-    };
-    calendar.addEvent(eventData);
-    $('#modalTambah').modal('hide');
-  });
-});
-
-  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
@@ -581,10 +488,15 @@
       Scrollbar.init(document.querySelector('#sidenav-scrollbar'), options);
     }
   </script>
+  <script>
+    $(document).ready(function(){
+      $("#tabel").DataTable();
+    });
+  </script>
   <!-- Github buttons -->
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
-  <script src="{{asset('assets/js/argon-dashboard.min.js?v=2.0.1')]}"></script>
+  <script src="{{asset('assets/js/argon-dashboard.min.js?v=2.0.1"></script>
 </body>
 
 </html>
