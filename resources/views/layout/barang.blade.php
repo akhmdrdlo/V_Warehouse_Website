@@ -37,7 +37,7 @@
       </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse  w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse h-auto  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
       <li class="nav-item">
           <a class="nav-link" href="/menu">
@@ -135,10 +135,6 @@
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-            <div class="input-group">
-              <span class="input-group-text text-body"><i class="fas fa-search" aria-hidden="true"></i></span>
-              <input type="text" class="form-control" placeholder="Type here...">
-            </div>
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
@@ -168,11 +164,6 @@
                     </form>
               </ul>
             </li>
-            <li class="nav-item px-3 d-flex align-items-center">
-              <a href="javascript:;" class="nav-link text-white p-0">
-                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-              </a>
-            </li>
           </ul>
         </div>
       </div>
@@ -185,6 +176,14 @@
             <div class="alert alert-success text-white">
                 {{ session('success') }}
             </div>
+        @elseif (session('warning'))
+            <div class="alert alert-warning text-white">
+                {{ session('warning') }}
+            </div>
+        @elseif (session('primary'))
+            <div class="alert alert-primary text-white">
+                {{ session('primary') }}
+            </div>
         @elseif (session('danger'))
             <div class="alert alert-danger text-white">
                 {{ session('danger') }}
@@ -193,9 +192,14 @@
           <div class="card mb-4">
             <div class="card-header pb-0">
               <h5>List Pengelola Barang</h5>
-              <a href="/addBarang" class="btn btn-primary float-end" style="margin-top:-35px;">
-                <i class="fa fa-plus mr-1"></i> Tambah Barang
-              </a>
+              @if (session('id'))
+              <a href="#" data-bs-toggle="modal" data-bs-target="#tambahKatModal" class="btn btn-primary float-end" style="margin-top:-35px; margin-left:5px;">
+                  <i class="fa fa-plus mr-1"></i> Kategori
+                </a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#tambahBarangModal" class="btn btn-success float-end" style="margin-top:-35px;">
+                  <i class="fa fa-plus mr-1"></i> Tambah Barang
+                </a>
+              @endif
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive mx-4 text-center">
@@ -208,8 +212,10 @@
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kategori</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah Stok</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Lokasi Penempatan</th>
+                      @if (session('id'))
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
                       <!-- Kondisi dimana user yang tidak login tidak akan diberikan privilege untuk mengubah stok -->
+                      @endif
                     </tr>
                   </thead>
                   <tbody>
@@ -236,9 +242,11 @@
                         <span class="text-secondary text-xs font-weight-bold">{{$barang->lokasi}}</span>
                       </td>
                       <td class="align-middle">
+                        @if(session('id'))
                         <a href="{{ route('barang.edit', $barang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit barang">
-                          <span class="badge badge-sm bg-gradient-success"><i class="fa fa-pen"></i> Edit</span>
+                          <span class="badge badge-sm bg-warning"><i class="fa fa-pen"></i> Edit</span>
                         </a>
+                        @endif
                       </td>
                     </tr>
                     @endforeach
@@ -250,41 +258,90 @@
         </div>
       </div>
       <!-- Modal Tambah Barang -->
-      <div class="modal fade" id="tambahBarangModal" tabindex="-1" role="dialog" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
+      <div class="modal fade" id="tambahBarangModal" tabindex="-3" role="dialog" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="tambahBarangModalLabel">Tambah Barang</h5>
-              <a href="" class=""></a>
+            <div class="modal-header justify-content-center">
+              <h5 class="modal-title font-weight-bolder" id="tambahBarangModalLabel"> Tambah Data Barang </h5>
             </div>
             <div class="modal-body">
-              <form action="/tambahBarang" method="POST" id="tambahBarangModal">
+              <form id="tambahBarang" action="{{ route('tambah') }}" method="POST" role="form" id="tambahBarangModal">
+                @csrf
                 <div class="form-group">
-                  <label for="merek">Merek Barang</label>
-                  <input type="text" class="form-control" name="merek" id="merek" required>
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Merek Barang</label>
+                      <input class="form-control" required autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="example-text-input" class="form-control-label">Jenis Barang</label>
+                        <input class="form-control" required autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="example-text-input" class="form-control-label">Kategori Barang</label>
+                        <select class="form-control" required name="kategori" id="kategori">
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($kategori as $item)
+                            <option value="{{ $item->kategori }}" >{{ $item->kategori }}</option>
+                        @endforeach
+                        </select>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="jenis_barang">Jenis Barang</label>
-                  <input type="text" class="form-control" name="jenis_barang" id="jenis_barang" required>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>
+                      <input class="form-control" required autocomplete="off" type="number" name="stok" placeholder="Stok Barang....">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Lokasi Barang</label>
+                      <input class="form-control" required autocomplete="off" type="text" name="lokasi" placeholder="Lokasi Barang....">
+                    </div>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="kategori">Kategori Barang</label>
-                  <input type="text" class="form-control" name="kategori" id="kategori" required>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <a href="/addBarang" class="btn btn-success" onclick="event.preventDefault(); document.getElementById('tambahBarang').submit();"><i class="fa fa-pen"></i> Tambah</a>
                 </div>
-                <div class="form-group">
-                  <label for="jumlah_stok">Jumlah Stok Barang</label>
-                  <input type="text" class="form-control" name="jumlah_stok" id="jumlah_stok" required>
-                </div>
-                <div class="form-group">
-                  <label for="lokasi">Lokasi Barang</label>
-                  <input type="text" class="form-control" name="lokasi" id="lokasi" required>
-                </div>
+              </form>
             </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary"><i class="fa fa-pen"></i> Tambah</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Tambah Barang -->
+      <div class="modal fade" id="tambahKatModal" tabindex="-3" role="dialog" aria-labelledby="tambahKatModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header justify-content-center">
+              <h5 class="modal-title font-weight-bolder" id="tambahKatModalLabel"> Tambah Jenis Kategori </h5>
             </div>
-            </form>
+            <div class="modal-body">
+              <form id="tambahKat" action="{{ route('tambahKat') }}" method="POST" role="form" id="tambahKatModal">
+                @csrf
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Jenis Kategori</label>
+                      <input class="form-control" required autocomplete="off" type="text" name="kategori" placeholder="Jenis Kategori....">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <a href="/addBarang" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('tambahKat').submit();"><i class="fa fa-pen"></i> Tambah</a>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

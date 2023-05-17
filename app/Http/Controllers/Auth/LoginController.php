@@ -9,15 +9,16 @@ class LoginController extends Controller
 {
     public function index()
     {
-        return view('/login');
+        return view('/login'); //
     }
 
     public function login(Request $request)
     {
         $credentials = $request->only('uname', 'password');
-        if (Auth::attempt($credentials)) {
+        if (Auth::attempt($credentials)) { //melakukan autentifikasi 
             // Authentikasi berhasil dilakukan
-            $nama_lengkap = Auth::user()->nama_lengkap;
+            $nama_lengkap = Auth::user()->nama_lengkap; //menambahkan variabel $nama_lengkap untuk session menu
+            session(['id' => Auth::user()->uname]); //buat session untuk menampilkan nama (uname) dimenu
             return redirect('/menu')->with('success', "Selamat datang kembali, $nama_lengkap di V-Warehouse!!");
         } else {
             // Authentikasi gagal dilakukan
@@ -35,7 +36,7 @@ class LoginController extends Controller
     $request->session()->regenerateToken();
 
     // redirect ke halaman login
-    return redirect('/login')->with('danger', 'Anda berhasil logout.');
+    return redirect('/menu')->with('danger', 'Anda berhasil logout.');
 }
 }
 

@@ -25,9 +25,8 @@ Route::get('/daftar', function () {
     return view('layout/daftar');
 });
 
-Route::get('/menu', function () {
-    return view('layout/menu');
-});
+
+Route::get('/menu', [App\Http\Controllers\Auth\IntegratedController::class, 'index']);
 
 Route::get('/jadwal', function () {
     return view('layout/jadwal');
@@ -42,5 +41,10 @@ Route::post('/signin', [App\Http\Controllers\Auth\LoginController::class, 'login
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
 Route::get('/barang', [App\Http\Controllers\Auth\BarangController::class, 'index']);
-Route::get('/addBarang', [App\Http\Controllers\Auth\BarangController::class, 'create']);
-Route::post('/addBarang', [App\Http\Controllers\Auth\BarangController::class, 'store']);
+Route::post('/addBarang', [App\Http\Controllers\Auth\BarangController::class, 'store'])->name('tambah');
+Route::post('/addKategori', [App\Http\Controllers\Auth\BarangController::class, 'storeKat'])->name('tambahKat');
+
+Route::get('/editBarang/{id}', [App\Http\Controllers\Auth\BarangController::class, 'edit'])->name('barang.edit');
+Route::put('/editBarang/{id}', [App\Http\Controllers\Auth\BarangController::class, 'update'])->name('barang.update');
+
+Route::delete('/editBarang/{id}', [App\Http\Controllers\Auth\BarangController::class, 'destroy'])->name('barang.destroy');

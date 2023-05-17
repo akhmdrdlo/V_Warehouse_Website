@@ -177,23 +177,24 @@
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex align-items-center">
-                <h5 class="mb-0">Tambah Data Barang</h5>
+                <h5 class="mb-0">Ubah Data Barang</h5>
               </div>
             </div>
             <div class="card-body">
-              <form action="/addBarang" method="POST" role="form">
+              <form action="{{ route('barang.update', $barang->id) }}" method="POST" role="form">
               @csrf
+              @method('PUT')
               <div class="row">
                 <div class="col-md-12">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Merek Barang</label>
-                    <input class="form-control" required autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
+                    <input class="form-control" value="{{$barang->merek}}" autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Jenis Barang</label>
-                    <input class="form-control" required autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
+                    <input class="form-control" value="{{ $barang->jenis_barang }}" autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
                   </div>
                 </div>
                 <div class="col-md-6">
@@ -201,8 +202,8 @@
                     <label for="example-text-input" class="form-control-label">Kategori Barang</label>
                     <select class="form-control" required name="kategori" id="kategori">
                     <option value="">Pilih Kategori</option>
-                    @foreach ($kategori as $item)
-                        <option value="{{ $item->kategori }}" >{{ $item->kategori }}</option>
+                    @foreach($kategori as $item)
+                        <option value="{{ $item->kategori }}" @if($item->kategori === $barang->kategori) selected @endif>{{ $item->kategori }}</option>
                     @endforeach
                     </select>
                   </div>
@@ -212,21 +213,49 @@
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>
-                    <input class="form-control" required autocomplete="off" type="number" name="stok" placeholder="Stok Barang....">
+                    <input class="form-control" value="{{ $barang->jumlah_stok }}" autocomplete="off" type="number" name="jumlah_stok" placeholder="Stok Barang....">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Lokasi Barang</label>
-                    <input class="form-control" required autocomplete="off" type="text" name="lokasi" placeholder="Lokasi Barang....">
+                    <input class="form-control" value="{{ $barang->lokasi }}" autocomplete="off" type="text" name="lokasi" placeholder="Lokasi Barang....">
                   </div>
                 </div>
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <button class="form-control btn btn-md btn-success" type="submit"><i class="fa fa-plus"></i> | TAMBAH BARANG </button>
+                <div class="row">
+                  <div class="col-md-10">
+                    <button class="form-control btn btn-md btn-warning col-md-10" type="submit"><i class="fa fa-pen"></i> | EDIT BARANG </button>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="form-control btn btn-md btn-danger col-md-2" href="#" data-bs-toggle="modal" data-bs-target="#hapus">
+                        <i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400"></i> | HAPUS
+                    </a>
                   </div>
                 </div>
               </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Hapus -->
+      <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="HapusModal">Upss!!</h4>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Apa kamu yakin ingin menghapus {{$barang->merek}} ?</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('hapus-form').submit();">Hapus</a>
+              <form id="hapus-form" action="{{ route('barang.destroy', $barang->id) }}" method="post" style="display: none;">
+                @csrf
+                @method('delete')
               </form>
             </div>
           </div>
@@ -265,78 +294,6 @@
       </footer>
     </div>
   </main>
-  <div class="fixed-plugin">
-    <a class="fixed-plugin-button text-dark position-fixed px-3 py-2">
-      <i class="fa fa-cog py-2"> </i>
-    </a>
-    <div class="card shadow-lg">
-      <div class="card-header pb-0 pt-3 ">
-        <div class="float-start">
-          <h5 class="mt-3 mb-0">Argon Configurator</h5>
-          <p>See our dashboard options.</p>
-        </div>
-        <div class="float-end mt-4">
-          <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
-            <i class="fa fa-close"></i>
-          </button>
-        </div>
-        <!-- End Toggle Button -->
-      </div>
-      <hr class="horizontal dark my-1">
-      <div class="card-body pt-sm-3 pt-0 overflow-auto">
-        <!-- Sidebar Backgrounds -->
-        <div>
-          <h6 class="mb-0">Sidebar Colors</h6>
-        </div>
-        <a href="javascript:void(0)" class="switch-trigger background-color">
-          <div class="badge-colors my-2 text-start">
-            <span class="badge filter bg-gradient-primary active" data-color="primary" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-dark" data-color="dark" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-info" data-color="info" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-success" data-color="success" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-warning" data-color="warning" onclick="sidebarColor(this)"></span>
-            <span class="badge filter bg-gradient-danger" data-color="danger" onclick="sidebarColor(this)"></span>
-          </div>
-        </a>
-        <!-- Sidenav Type -->
-        <div class="mt-3">
-          <h6 class="mb-0">Sidenav Type</h6>
-          <p class="text-sm">Choose between 2 different sidenav types.</p>
-        </div>
-        <div class="d-flex">
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2 active me-2" data-class="bg-white" onclick="sidebarType(this)">White</button>
-          <button class="btn bg-gradient-primary w-100 px-3 mb-2" data-class="bg-default" onclick="sidebarType(this)">Dark</button>
-        </div>
-        <p class="text-sm d-xl-none d-block mt-2">You can change the sidenav type just on desktop view.</p>
-        <!-- Navbar Fixed -->
-        <div class="d-flex my-3">
-          <h6 class="mb-0">Navbar Fixed</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="navbarFixed" onclick="navbarFixed(this)">
-          </div>
-        </div>
-        <hr class="horizontal dark my-sm-4">
-        <div class="mt-2 mb-5 d-flex">
-          <h6 class="mb-0">Light / Dark</h6>
-          <div class="form-check form-switch ps-0 ms-auto my-auto">
-            <input class="form-check-input mt-1 ms-auto" type="checkbox" id="dark-version" onclick="darkMode(this)">
-          </div>
-        </div>
-        <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/argon-dashboard">Free Download</a>
-        <a class="btn btn-outline-dark w-100" href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard">View documentation</a>
-        <div class="w-100 text-center">
-          <a class="github-button" href="https://github.com/creativetimofficial/argon-dashboard" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star creativetimofficial/argon-dashboard on GitHub">Star</a>
-          <h6 class="mt-3">Thank you for sharing!</h6>
-          <a href="https://twitter.com/intent/tweet?text=Check%20Argon%20Dashboard%20made%20by%20%40CreativeTim%20%23webdesign%20%23dashboard%20%23bootstrap5&amp;url=https%3A%2F%2Fwww.creative-tim.com%2Fproduct%2Fargon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-twitter me-1" aria-hidden="true"></i> Tweet
-          </a>
-          <a href="https://www.facebook.com/sharer/sharer.php?u=https://www.creative-tim.com/product/argon-dashboard" class="btn btn-dark mb-0 me-2" target="_blank">
-            <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>

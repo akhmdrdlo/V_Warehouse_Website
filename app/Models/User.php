@@ -23,6 +23,18 @@ class User extends Authenticatable
         'nama_lengkap',
         'status',
     ];
+    
+    protected $dates = ['created_at', 'updated_at'];
+
+    public function getCreatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Asia/Jakarta');
+    }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone('Asia/Jakarta');
+    }
 
     /**
      * The attributes that should be hidden for serialization.

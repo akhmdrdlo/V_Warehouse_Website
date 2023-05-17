@@ -2,7 +2,7 @@
     <div class="alert alert-success text-white">
         {{ session('success') }}
     </div>
-@else (session('danger'))
+@elseif (session('danger'))
     <div class="alert alert-danger text-white">
         {{ session('danger') }}
     </div>
