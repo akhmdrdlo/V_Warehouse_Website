@@ -59,7 +59,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/riwayat">
+          <a class="nav-link " href="/transaksi">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-cart text-success text-sm opacity-10"></i>
             </div>
@@ -115,7 +115,7 @@
                 <span class="d-sm-inline d-none">Login</span>
               </a>
             @endif
-              <ul class="dropdown-menu dropdown-menu-end  px-2 py-3 " aria-labelledby="dropdownMenuButton">
+              <ul class="dropdown-menu dropdown-menu-end px-2 " aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#dataDiri" >
                         <i class="fa fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i> Data Diri
                     </a>
@@ -214,7 +214,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Riwayat</p>
                     <h6 class="font-weight-bolder">
-                      15 Transaksi
+                      {{$allRiwayat}} Transaksi
                     </h6>
                   </div>
                 </div>
@@ -239,6 +239,29 @@
             </div>
             <div class="card-body">
               <div id="calendar"></div>
+
+              <script>
+                  $(document).ready(function() {
+                      // Inisialisasi kalender
+                      $('#calendar').fullCalendar({
+                          defaultView: 'month', // Tampilan default: bulan
+                          editable: false, // Nonaktifkan fitur edit
+                          events: '/api/events', // Endpoint API untuk mengambil data event
+                          eventRender: function(event, element) {
+                              element.find('.fc-title').append("<br/>" + event.description); // Menampilkan deskripsi event
+                          },
+                          loading: function(bool) {
+                              if (bool) {
+                                  // Tampilkan loading spinner saat data sedang dimuat
+                                  $('#loading').show();
+                              } else {
+                                  // Sembunyikan loading spinner saat data sudah dimuat
+                                  $('#loading').hide();
+                              }
+                          }
+                      });
+                  });
+              </script>
             </div>
           </div>
         </div>
@@ -327,24 +350,18 @@
               </button>
             </div>
             <div class="modal-body">
-              <form id="tambahEvent" method="POST">
+              <form id="tambahEvent" action="/events" method="POST" role="form">
+                @csrf
                 <div class="form-group">
                   <label for="eventTitle">Judul Event</label>
-                  <input type="text" class="form-control" id="eventTitle" name="title" required>
+                  <input type="text" class="form-control" id="eventTitle" autocomplete="off" name="judul" required>
                 </div>
                 <div class="form-group">
                   <label for="eventDate">Tanggal</label>
-                  <input type="date" class="form-control" id="eventDate" name="date" required>
+                  <input type="date" class="form-control" id="eventDate" name="tanggal" required>
                 </div>
-                <div class="form-group">
-                  <label for="eventTime">Waktu</label>
-                  <input type="time" class="form-control" id="eventTime" name="time" required>
-                </div>
-                <div class="form-group">
-                  <label for="eventDescription">Deskripsi Event</label>
-                  <textarea class="form-control" id="eventDescription" name="description" rows="3" required></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary">Tambah</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('tambahEvent').submit();"><i class="fa fa-pen"></i> Tambah</a>
               </form>
             </div>
           </div>
@@ -392,9 +409,10 @@
   <script src="{{asset('assets/js/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.dataTables.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" rel="stylesheet" />
-    
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
   <script>
  $(document).ready(function() {
     $('#calendar').fullCalendar({
@@ -413,20 +431,6 @@
       }
     });
   });
-  $(document).ready(function() {
-
-  // Tambah event
-  $('#tambahEvent').submit(function(event) {
-    event.preventDefault();
-    var eventData = {
-      title: $('#eventTitle').val(),
-      start: $('#eventDate').val() + 'T' + $('#eventTime').val(),
-      description: $('#eventDescription').val()
-    };
-    calendar.addEvent(eventData);
-    $('#modalTambah').modal('hide');
-  });
-});
 
   </script>
   <script>

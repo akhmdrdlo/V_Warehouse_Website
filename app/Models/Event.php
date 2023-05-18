@@ -5,17 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class list_transaksi extends Model
+class Event extends Model
 {
     use HasFactory;
-    protected $table = 'list_transaksi';
+    protected $table = 'events';
     protected $fillable = [
         'id',
-        'tgl_transaksi',
-        'merek',
-        'nama',
-        'jumlah_transaksi',
-        'nominal',
+        'judul',
+        'tanggal',
     ];
 
     

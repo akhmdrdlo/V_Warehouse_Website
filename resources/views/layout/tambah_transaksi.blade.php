@@ -145,11 +145,16 @@
             </div>
             <hr>
             <div class="card-body" style="margin-top:-25px;">
-              <form action="{{ route('barang.update', $barang->id) }}" method="POST" role="form">
+              <form action="{{ route('proses.transaksi', $barang->id) }}" method="POST" role="form">
               @csrf
-              @method('PUT')
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="example-text-input" class="form-control-label">Tanggal Transaksi</label>
+                        <input class="form-control" value="{{ date('Y-m-d') }}" autocomplete="off" type="date" name="tgl_transaksi" placeholder="Nama Merek Barang....">
+                    </div>
+                </div>
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Merek Barang</label>
                     <input class="form-control" value="{{$barang->merek}}" autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
@@ -157,49 +162,20 @@
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Jenis Barang</label>
-                    <input class="form-control" value="{{ $barang->jenis_barang }}" autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
+                    <label for="example-text-input" class="form-control-label">Nama Klien</label>
+                    <input class="form-control" autocomplete="off" type="text" name="nama" placeholder="Nama Klien...">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Kategori Barang</label>
-                    <select class="form-control" required name="kategori" id="kategori">
-                    <option value="">Pilih Kategori</option>
-                    @foreach($kategori as $item)
-                        <option value="{{ $item->kategori }}" @if($item->kategori === $barang->kategori) selected @endif>{{ $item->kategori }}</option>
-                    @endforeach
-                    </select>
+                    <label for="example-text-input" class="form-control-label">Jumlah Transaksi Barang (dalam Box)</label>
+                    <input class="form-control" autocomplete="off" type="number" name="jumlah_transaksi" placeholder="Jumlah pembelian....">
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>
-                    <input class="form-control" value="{{ $barang->jumlah_stok }}" autocomplete="off" type="number" name="jumlah_stok" placeholder="Stok Barang....">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nominal Harga per Box</label>
-                    <input class="form-control" value="{{ $barang->harga }}" autocomplete="off" type="number" name="harga" placeholder="Harga Barang....">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Lokasi Barang</label>
-                    <input class="form-control" value="{{ $barang->lokasi }}" autocomplete="off" type="text" name="lokasi" placeholder="Lokasi Barang....">
-                  </div>
-                </div>
                 <div class="row">
-                  <div class="col-md-10">
-                    <button class="form-control btn btn-md btn-warning col-md-10" type="submit"><i class="fa fa-pen"></i> | EDIT BARANG </button>
-                  </div>
-                  <div class="col-md-2">
-                    <a class="form-control btn btn-md btn-danger col-md-2" href="#" data-bs-toggle="modal" data-bs-target="#hapus">
-                        <i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400"></i> | HAPUS
-                    </a>
+                  <div class="col-md-12">
+                    <button class="form-control btn btn-md btn-primary col-md-10" type="submit"><i class="ni ni-cart"></i> | LAKUKAN TRANSAKSI </button>
                   </div>
                 </div>
               </div>
@@ -209,7 +185,7 @@
         </div>
       </div>
       <!-- Modal Hapus -->
-      <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+      <!-- <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
@@ -230,7 +206,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <footer class="footer pt-3  ">
         <div class="container-fluid">
           <div class="row align-items-center justify-content-lg-between">

@@ -37,7 +37,7 @@
       </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse h-auto w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse h-auto  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
       <li class="nav-item">
           <a class="nav-link" href="/menu">
@@ -48,7 +48,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/barang">
+          <a class="nav-link " href="/barang">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-box-2 text-warning text-sm opacity-10"></i>
             </div>
@@ -56,7 +56,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/transaksi">
+          <a class="nav-link active " href="/transaksi">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-cart text-success text-sm opacity-10"></i>
             </div>
@@ -85,7 +85,6 @@
       <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
     </div> -->
   </aside>
-
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
@@ -95,11 +94,10 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">V-Warehouse</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Pengelola Barang</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Riwayat Transaksi</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
@@ -134,98 +132,210 @@
       </div>
     </nav> 
     <!-- End Navbar -->
+    
     <div class="container-fluid py-4">
       <div class="row">
-        <div class="col-md-12">
+      <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
-            <div class="card-header pb-0">
-              <div class="d-flex">
-                <h5 class="mb-0">Ubah Data Barang</h5>
+            <div class="card-body p-3">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Transaksi Terjadi</p>
+                    <h6 class="font-weight-bolder">
+                     Box
+                    </h6>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape lg bg-gradient-primary shadow-primary text-center rounded-circle">
+                    <i class="ni ni-box-2 text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
               </div>
             </div>
-            <hr>
-            <div class="card-body" style="margin-top:-25px;">
-              <form action="{{ route('barang.update', $barang->id) }}" method="POST" role="form">
-              @csrf
-              @method('PUT')
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Merek Barang</label>
-                    <input class="form-control" value="{{$barang->merek}}" autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
+          </div>
+        </div>
+        <div class="col-xl-6 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Pendapatan Transaksi</p>
+                    <h6 class="font-weight-bolder">
+                    Rp.
+                    </h6>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Jenis Barang</label>
-                    <input class="form-control" value="{{ $barang->jenis_barang }}" autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Kategori Barang</label>
-                    <select class="form-control" required name="kategori" id="kategori">
-                    <option value="">Pilih Kategori</option>
-                    @foreach($kategori as $item)
-                        <option value="{{ $item->kategori }}" @if($item->kategori === $barang->kategori) selected @endif>{{ $item->kategori }}</option>
-                    @endforeach
-                    </select>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-success shadow-success text-center rounded-circle">
+                    <i class="ni ni-money-coins text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
-              <div class="row">
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>
-                    <input class="form-control" value="{{ $barang->jumlah_stok }}" autocomplete="off" type="number" name="jumlah_stok" placeholder="Stok Barang....">
+            </div>
+          </div>
+        </div>
+        <div class="col-12 my-4">
+        @if (session('success'))
+            <div class="alert alert-success text-white">
+                {{ session('success') }}
+            </div>
+        @elseif (session('warning'))
+            <div class="alert alert-warning text-white">
+                {{ session('warning') }}
+            </div>
+        @elseif (session('primary'))
+            <div class="alert alert-primary text-white">
+                {{ session('primary') }}
+            </div>
+        @elseif (session('danger'))
+            <div class="alert alert-danger text-white">
+                {{ session('danger') }}
+            </div>
+        @endif
+        
+          <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h5>Riwayat Transaksi</h5>
+              <!-- @if (session('id'))
+              <a href="#" data-bs-toggle="modal" data-bs-target="#tambahKatModal" class="btn btn-primary float-end" style="margin-top:-35px; margin-left:5px;">
+                  <i class="fa fa-plus mr-1"></i> Kategori
+                </a>
+                <a href="#" data-bs-toggle="modal" data-bs-target="#tambahBarangModal" class="btn btn-success float-end" style="margin-top:-35px;">
+                  <i class="fa fa-plus mr-1"></i> Tambah Barang
+                </a>
+              @endif -->
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive mx-4 text-center">
+                <table class="table text-center align-items-center mb-0" id="tabel">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tanggal Transaksi</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Merek Barang</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Nama Klien</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah Transaksi</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Nominal Transaksi</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  @foreach($transaksis as $riwayat)
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">{{$loop->iteration}}</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-md text-uppercase font-weight-bold mb-0">{{$riwayat->tgl_transaksi}}</p>
+                      </td>
+                      <td>
+                        <p class="text-md text-uppercase font-weight-bold mb-0">{{$riwayat->merek}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-md font-weight-bold mb-0">{{$riwayat->nama}}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-md font-weight-bold">{{$riwayat->jumlah_transaksi}}</span>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-md font-weight-bolder text-success">Rp.{{$riwayat->nominal}}</span>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Tambah Barang -->
+      <div class="modal fade" id="tambahBarangModal" tabindex="-3" role="dialog" aria-labelledby="tambahBarangModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header justify-content-center">
+              <h5 class="modal-title font-weight-bolder" id="tambahBarangModalLabel"> Tambah Data Barang </h5>
+            </div>
+            <div class="modal-body">
+              <form id="tambahBarang" action="" method="POST" role="form" id="tambahBarangModal">
+                @csrf
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Merek Barang</label>
+                      <input class="form-control" required autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
+                    </div>
                   </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nominal Harga per Box</label>
-                    <input class="form-control" value="{{ $barang->harga }}" autocomplete="off" type="number" name="harga" placeholder="Harga Barang....">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Lokasi Barang</label>
-                    <input class="form-control" value="{{ $barang->lokasi }}" autocomplete="off" type="text" name="lokasi" placeholder="Lokasi Barang....">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="example-text-input" class="form-control-label">Jenis Barang</label>
+                        <input class="form-control" required autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="example-text-input" class="form-control-label">Kategori Barang</label>
+                        <select class="form-control" required name="kategori" id="kategori">
+                        <option value="">Pilih Kategori</option>
+                        @foreach ($kategori as $item)
+                            <option value="{{ $item->kategori }}" >{{ $item->kategori }}</option>
+                        @endforeach
+                        </select>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
-                  <div class="col-md-10">
-                    <button class="form-control btn btn-md btn-warning col-md-10" type="submit"><i class="fa fa-pen"></i> | EDIT BARANG </button>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>
+                      <input class="form-control" required autocomplete="off" type="number" name="stok" placeholder="Stok Barang....">
+                    </div>
                   </div>
-                  <div class="col-md-2">
-                    <a class="form-control btn btn-md btn-danger col-md-2" href="#" data-bs-toggle="modal" data-bs-target="#hapus">
-                        <i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400"></i> | HAPUS
-                    </a>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Lokasi Barang</label>
+                      <input class="form-control" required autocomplete="off" type="text" name="lokasi" placeholder="Lokasi Barang....">
+                    </div>
                   </div>
                 </div>
-              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <a href="/addBarang" class="btn btn-success" onclick="event.preventDefault(); document.getElementById('tambahBarang').submit();"><i class="fa fa-pen"></i> Tambah</a>
+                </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <!-- Modal Hapus -->
-      <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+
+      <!-- Modal Tambah Barang -->
+      <div class="modal fade" id="tambahKatModal" tabindex="-3" role="dialog" aria-labelledby="tambahKatModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="HapusModal">Upss!!</h4>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
+            <div class="modal-header justify-content-center">
+              <h5 class="modal-title font-weight-bolder" id="tambahKatModalLabel"> Tambah Jenis Kategori </h5>
             </div>
             <div class="modal-body">
-              <p>Apa kamu yakin ingin menghapus {{$barang->merek}} ?</p>
-            </div>
-            <div class="modal-footer">
-              <a href="#" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('hapus-form').submit();">Hapus</a>
-              <form id="hapus-form" action="{{ route('barang.destroy', $barang->id) }}" method="post" style="display: none;">
+              <form id="tambahKat" action="{{ route('tambahKat') }}" method="POST" role="form" id="tambahKatModal">
                 @csrf
-                @method('delete')
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Jenis Kategori</label>
+                      <input class="form-control" required autocomplete="off" type="text" name="kategori" placeholder="Jenis Kategori....">
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <a href="/addBarang" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('tambahKat').submit();"><i class="fa fa-pen"></i> Tambah</a>
+                </div>
               </form>
             </div>
           </div>

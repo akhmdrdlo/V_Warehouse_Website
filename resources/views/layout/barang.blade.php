@@ -56,7 +56,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/riwayat">
+          <a class="nav-link " href="/transaksi">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-cart text-success text-sm opacity-10"></i>
             </div>
@@ -71,43 +71,6 @@
             <span class="nav-link-text ms-1">Jadwal Gudang</span>
           </a>
         </li>
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="../pages/profile.html">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Data Diri</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="../pages/profile.html">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="fa fa-group text-secondary text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Data Admin</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="../pages/sign-in.html">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-copy-04 text-warning text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Log-In</span>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="../pages/sign-up.html">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-collection text-info text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Daftar Akun</span>
-          </a>
-        </li>
-      </ul>
-    </div>
     <!-- <div class="sidenav-footer mx-3 ">
       <div class="card card-plain shadow-none" id="sidenavCard">
         <img class="w-50 mx-auto" src="{{asset('assets/img/illustrations/icon-documentation.svg')}}" alt="sidebar_illustration">
@@ -208,9 +171,9 @@
                     <tr>
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Merek Barang</th>
-                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jenis Barang</th>
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kategori</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah Stok</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Harga Per Box</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Lokasi Penempatan</th>
                       @if (session('id'))
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
@@ -229,19 +192,23 @@
                       <td>
                         <p class="text-sm text-uppercase font-weight-bold mb-0">{{$barang->merek}}</p>
                       </td>
-                      <td>
-                        <p class="text-xs font-weight-bold mb-0">{{$barang->jenis_barang}}</p>
-                      </td>
+
                       <td class="align-middle text-center text-sm">
                         <p class="text-xs font-weight-bold mb-0">{{$barang->kategori}}</p>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{$barang->jumlah_stok}}</span>
+                      </td>                      
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Rp.{{$barang->harga}}</p>
                       </td>
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{$barang->lokasi}}</span>
                       </td>
                       <td class="align-middle">
+                        <a href="{{ route('transaksi.barang', $barang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit barang">
+                          <span class="badge badge-sm bg-primary"><i class="ni ni-cart"></i> Beli</span>
+                        </a>
                         @if(session('id'))
                         <a href="{{ route('barang.edit', $barang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit barang">
                           <span class="badge badge-sm bg-warning"><i class="fa fa-pen"></i> Edit</span>
@@ -268,19 +235,21 @@
               <form id="tambahBarang" action="{{ route('tambah') }}" method="POST" role="form" id="tambahBarangModal">
                 @csrf
                 <div class="form-group">
-                  <div class="col-md-12">
+                  <div class="row">
+                  <div class="col-md-7">
                     <div class="form-group">
                       <label for="example-text-input" class="form-control-label">Merek Barang</label>
                       <input class="form-control" required autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
                     </div>
                   </div>
-                  <div class="row">
-                    <div class="col-md-6">
+                  <div class="col-md-5">
                       <div class="form-group">
                         <label for="example-text-input" class="form-control-label">Jenis Barang</label>
                         <input class="form-control" required autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
                       </div>
-                    </div>
+                  </div>                    
+                  </div>
+                  <div class="row">
                     <div class="col-md-6">
                       <div class="form-group">
                         <label for="example-text-input" class="form-control-label">Kategori Barang</label>
@@ -290,6 +259,12 @@
                             <option value="{{ $item->kategori }}" >{{ $item->kategori }}</option>
                         @endforeach
                         </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label for="example-text-input" class="form-control-label">Harga Barang (per Box)</label>
+                        <input class="form-control" required autocomplete="off" type="number" name="harga" placeholder="Harga Barang....">
                       </div>
                     </div>
                   </div>

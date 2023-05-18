@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Barang;
 use App\Models\kategori;
 use App\Models\User;
+use App\Models\list_transaksi;
 
 class IntegratedController extends Controller
 {
@@ -23,12 +24,17 @@ class IntegratedController extends Controller
         $allAdmin = User::count();
         return $allAdmin;
     }
+    public function getAllRiwayat(){
+        $allRiwayat = list_transaksi::count();
+        return $allRiwayat;
+    }
     public function index()
 {
     $totalStock = $this->getTotalStok();
     $kategoriAll = $this->getTotalKategori();
-    $allAdmin = $this->getTotalKategori();
-    return view('.../layout/menu', compact('totalStock', 'kategoriAll','allAdmin'));
+    $allAdmin = $this->getAllAdmin();
+    $allRiwayat = $this->getAllRiwayat();
+    return view('.../layout/menu', compact('totalStock', 'kategoriAll','allAdmin','allRiwayat'));
 }
 
 }
