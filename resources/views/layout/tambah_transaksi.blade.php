@@ -26,8 +26,13 @@
 
 <body class="g-sidenav-show   bg-gray-100">
   <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('../assets/img/gudanglow.jpg'); background-position-y: 50%;">
+  @if(Auth::check())
     <span class="mask bg-primary opacity-6"></span>
+  @elseif(!Auth::check())
+    <span class="mask bg-secondary opacity-6"></span>
+  @endif
   </div>
+  @if(Auth::check())
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -85,7 +90,7 @@
       <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
     </div> -->
   </aside>
-
+@endif
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
@@ -95,7 +100,7 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">V-Warehouse</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Pengelola Barang</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Pembelian Barang</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -111,7 +116,7 @@
             @else
               <a href="/login" class="nav-link text-white p-0">
                 <i class="fa fa-sign-in me-sm-1"></i>
-                <span class="d-sm-inline d-none">Login</span>
+                <span class="d-sm-inline d-none">Login Admin</span>
               </a>
             @endif
               <ul class="dropdown-menu dropdown-menu-end px-2 py-3 " aria-labelledby="dropdownMenuButton">
@@ -135,12 +140,16 @@
     </nav> 
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      <div class="row">
+      <div class="row justify-content-center">
+        @if(Auth::check())
         <div class="col-md-12">
+        @elseif(!Auth::check())
+        <div class="col-md-6 ">
+          @endif
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex">
-                <h5 class="mb-0">Ubah Data Barang</h5>
+                <h5 class="mb-0">Form Pembelian Barang</h5>
               </div>
             </div>
             <hr>
@@ -184,32 +193,9 @@
           </div>
         </div>
       </div>
-      <!-- Modal Hapus -->
-      <!-- <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title" id="HapusModal">Upss!!</h4>
-              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p>Apa kamu yakin ingin menghapus {{$barang->merek}} ?</p>
-            </div>
-            <div class="modal-footer">
-              <a href="#" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('hapus-form').submit();">Hapus</a>
-              <form id="hapus-form" action="{{ route('barang.destroy', $barang->id) }}" method="post" style="display: none;">
-                @csrf
-                @method('delete')
-              </form>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <footer class="footer pt-3  ">
+      <footer class="footer pt-3">
         <div class="container-fluid">
-          <div class="row align-items-center justify-content-lg-between">
+          <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 mb-lg-0 mb-4">
               <div class="copyright text-center text-sm text-muted text-lg-start">
                 © <script>

@@ -1,6 +1,6 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,10 +13,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Route::get('/login', function () {
     return view('layout/login');
 });
@@ -25,11 +21,7 @@ Route::get('/daftar', function () {
     return view('layout/daftar');
 });
 
-Route::get('/menu', [App\Http\Controllers\Auth\IntegratedController::class, 'index']);
-
-Route::get('/riwayat', function () {
-    return view('layout/riwayat');
-});
+Route::get('/unauthorized', [App\Http\Controllers\Auth\IntegratedController::class, 'unauthorized']);
 
 Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'create']);
 Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'store']);
@@ -37,8 +29,16 @@ Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, '
 Route::get('/signin', [App\Http\Controllers\Auth\LoginController::class, 'index']);
 Route::post('/signin', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 
+Route::get('/transaksi', [App\Http\Controllers\Auth\IntegratedController::class, 'indexTransaksi']);
+Route::get('/', [App\Http\Controllers\Auth\IntegratedController::class, 'index']);
+Route::get('/menu', [App\Http\Controllers\Auth\IntegratedController::class, 'index']);
+
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout'])->name('logout');
 
+Route::get('/tambahTransaksi/{id}', [App\Http\Controllers\Auth\TransaksiController::class, 'beli'])->name('transaksi.barang');
+Route::post('/tambahTransaksi/{id}', [App\Http\Controllers\Auth\TransaksiController::class, 'store'])->name('proses.transaksi');
+
+// Batas Autentifikasi
 Route::get('/api/events', [App\Http\Controllers\Auth\EventController::class, 'index'])->name('api.events.index');
 Route::post('/events', [App\Http\Controllers\Auth\EventController::class, 'store']);
 
@@ -52,5 +52,7 @@ Route::put('/editBarang/{id}', [App\Http\Controllers\Auth\BarangController::clas
 Route::delete('/editBarang/{id}', [App\Http\Controllers\Auth\BarangController::class, 'destroy'])->name('barang.destroy');
 
 Route::get('/transaksi', [App\Http\Controllers\Auth\TransaksiController::class, 'index']);
-Route::get('/tambahTransaksi/{id}', [App\Http\Controllers\Auth\TransaksiController::class, 'beli'])->name('transaksi.barang');
-Route::post('/tambahTransaksi/{id}', [App\Http\Controllers\Auth\TransaksiController::class, 'store'])->name('proses.transaksi');
+
+Route::get('/calendar', [App\Http\Controllers\Auth\ScheduleController::class, 'index'])->name('calendar.index');
+Route::post('/calendar/add', [App\Http\Controllers\Auth\ScheduleController::class, 'index'])->name('calendar.store');
+

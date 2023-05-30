@@ -27,10 +27,14 @@
   <link id="pagestyle" href="{{asset('assets/css/argon-dashboard.css?v=2.0.1')}}" rel="stylesheet" />
 </head>
 
-<body class="g-sidenav-show bg-gray-100">
+<body class="g-sidenav-show bg-gray-100">  
   <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('../assets/img/gudanglow.jpg'); background-position-y: 50%;">
+  @if(Auth::check())
     <span class="mask bg-primary opacity-6"></span>
+  @endif
+    <span class="mask bg-secondary opacity-6"></span>
   </div>
+  @if(Auth::check())
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
@@ -74,20 +78,10 @@
             <span class="nav-link-text ms-1">Jadwal Gudang</span>
           </a>
         </li>
-        <li class="nav-item mt-3">
-          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account pages</h6>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link " href="../pages/profile.html">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-single-02 text-dark text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Profile</span>
-          </a>
-        </li>
       </ul>
     </div>
   </aside>
+  @endif
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
@@ -95,7 +89,10 @@
         <nav aria-label="breadcrumb">
           <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">V-Warehouse</a></li>
-            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan</li>
+            @if(Auth::check())
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan Admin</li>
+            @endif
+            <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan User</li>
           </ol>
           <h6 class="font-weight-bolder text-white mb-0">Menu Utama</h6>
         </nav>
@@ -112,7 +109,7 @@
             @else
               <a href="/login" class="nav-link text-white p-0">
                 <i class="fa fa-sign-in me-sm-1"></i>
-                <span class="d-sm-inline d-none">Login</span>
+                <span class="d-sm-inline d-none">Login Admin</span>
               </a>
             @endif
               <ul class="dropdown-menu dropdown-menu-end px-2 " aria-labelledby="dropdownMenuButton">
@@ -229,6 +226,7 @@
         </div>
       </div>
       <div class="row mt-4">
+        @if (Auth::check())
         <div class="col-lg-7 mb-lg-0 mb-4">
           <div class="card">
             <div class="card-header pb-0 p-3">
@@ -314,6 +312,62 @@
             </div>
           </div>
         </div>
+        @elseif (!Auth::check())
+      <div class="col-lg-12">
+        <div class="card mb-4">
+            <div class="card-header pb-0">
+              <h5>List Barang Yang Tersedia</h5>
+            </div>
+            <div class="card-body px-2 pt-0 pb-2">
+              <div class="table-responsive mx-2 text-center">
+                <table class="table text-center align-items-center mb-0" id="tabel">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Merek Barang</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kategori</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah Stok</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Harga Per Box</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Lokasi Penempatan</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  @foreach($barangs as $barang)
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-sm">{{$loop->iteration}}</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-sm text-uppercase font-weight-bold mb-0">{{$barang->merek}}</p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        <p class="text-xs font-weight-bold mb-0">{{$barang->kategori}}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{$barang->jumlah_stok}}</span>
+                      </td>                      
+                      <td>
+                        <p class="text-xs font-weight-bold mb-0">Rp.{{$barang->harga}}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{$barang->lokasi}}</span>
+                      </td>
+                      <td class="align-middle">
+                        <a href="{{ route('transaksi.barang', $barang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit barang">
+                          <span class="badge badge-sm bg-primary"><i class="ni ni-cart"></i> Beli</span>
+                        </a>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        @endif
       </div>
       <!-- Modal Logout -->
       <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
@@ -405,14 +459,12 @@
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/perfect-scrollbar.min.js')}}"></script>
   <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
-  <script src="{{asset('assets/js/plugins/chartjs.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.dataTables.min.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.10.2/fullcalendar.min.js"></script>
   <script>
  $(document).ready(function() {
     $('#calendar').fullCalendar({
@@ -434,6 +486,11 @@
 
   </script>
   <script>
+    $(document).ready(function(){
+      $("#tabel").DataTable();
+    });
+  </script>
+  <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {
       var options = {
@@ -446,6 +503,7 @@
   <script async defer src="https://buttons.github.io/buttons.js"></script>
   <!-- Control Center for Soft Dashboard: parallax effects, scripts for the example pages etc -->
   <script src="{{asset('assets/js/argon-dashboard.min.js?v=2.0.1')]}"></script>
+
 </body>
 
 </html>

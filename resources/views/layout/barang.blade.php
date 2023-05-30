@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,6 +26,7 @@
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
+  @if(Auth::check())
   <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('../assets/img/gudanglow.jpg'); background-position-y: 50%;">
     <span class="mask bg-primary opacity-6"></span>
   </div>
@@ -156,7 +158,7 @@
             <div class="card-header pb-0">
               <h5>List Pengelola Barang</h5>
               @if (session('id'))
-              <a href="#" data-bs-toggle="modal" data-bs-target="#tambahKatModal" class="btn btn-primary float-end" style="margin-top:-35px; margin-left:5px;">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#tambahKatModal" class="btn btn-primary float-end" style="margin-top:-35px; margin-left:5px;">
                   <i class="fa fa-plus mr-1"></i> Kategori
                 </a>
                 <a href="#" data-bs-toggle="modal" data-bs-target="#tambahBarangModal" class="btn btn-success float-end" style="margin-top:-35px;">
@@ -175,10 +177,7 @@
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah Stok</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Harga Per Box</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Lokasi Penempatan</th>
-                      @if (session('id'))
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
-                      <!-- Kondisi dimana user yang tidak login tidak akan diberikan privilege untuk mengubah stok -->
-                      @endif
                     </tr>
                   </thead>
                   <tbody>
@@ -186,14 +185,13 @@
                     <tr>
                       <td> 
                         <div class="d-flex px-2 py-1">
-                          <h4 class="mb-0 text-sm">{{$loop->iteration}}</h4>
+                          <h4 class="mb-0 text-xs">{{$loop->iteration}}</h4>
                         </div>
                       </td>
                       <td>
-                        <p class="text-sm text-uppercase font-weight-bold mb-0">{{$barang->merek}}</p>
+                        <p class="text-xs text-uppercase font-weight-bold mb-0">{{$barang->merek}}</p>
                       </td>
-
-                      <td class="align-middle text-center text-sm">
+                      <td class="align-middle text-center text-xs">
                         <p class="text-xs font-weight-bold mb-0">{{$barang->kategori}}</p>
                       </td>
                       <td class="align-middle text-center">
@@ -293,7 +291,7 @@
         </div>
       </div>
 
-      <!-- Modal Tambah Barang -->
+      <!-- Modal Tambah Kategori -->
       <div class="modal fade" id="tambahKatModal" tabindex="-3" role="dialog" aria-labelledby="tambahKatModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
@@ -315,6 +313,31 @@
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                   <a href="/addBarang" class="btn btn-primary" onclick="event.preventDefault(); document.getElementById('tambahKat').submit();"><i class="fa fa-pen"></i> Tambah</a>
                 </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal Logout -->
+      <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="exampleModalLabelLogout">Upss!!</h4>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @if(Auth::check())
+            <div class="modal-body">
+              <p>Apa kamu yakin ingin Logout,{{ Auth::user()->nama_lengkap }} ?</p>
+            </div>
+            @endif
+            <div class="modal-footer">
+              <a href="/logout" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
               </form>
             </div>
           </div>
@@ -353,6 +376,22 @@
       </footer>
     </div>
   </main>
+  @elseif(!Auth::check())
+  <div class="container mt-8">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">Error 401 - Unauthorized User</div>
+                    <div class="card-body text-center">
+                        <h3><i class="fas fa-times-circle text-danger"></i><br>ERROR 401</h3>
+                        <h3>Oops! Anda tidak memiliki izin untuk mengakses halaman ini.</h3>
+                        <h6><a href="/login" class="text-primary">Login </a>sebagai admin untuk mendapatkan izin ke halaman ini!!</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>

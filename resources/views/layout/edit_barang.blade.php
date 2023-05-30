@@ -149,7 +149,7 @@
               @csrf
               @method('PUT')
               <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Merek Barang</label>
                     <input class="form-control" value="{{$barang->merek}}" autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
@@ -161,6 +161,8 @@
                     <input class="form-control" value="{{ $barang->jenis_barang }}" autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
                   </div>
                 </div>
+              </div>
+              <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Kategori Barang</label>
@@ -172,8 +174,6 @@
                     </select>
                   </div>
                 </div>
-              </div>
-              <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>

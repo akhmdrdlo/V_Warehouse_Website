@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Auth;
-
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Barang;
@@ -30,11 +30,18 @@ class IntegratedController extends Controller
     }
     public function index()
 {
+    $barangs = Barang::all();
+    $kategori = kategori::all();
     $totalStock = $this->getTotalStok();
     $kategoriAll = $this->getTotalKategori();
     $allAdmin = $this->getAllAdmin();
     $allRiwayat = $this->getAllRiwayat();
-    return view('.../layout/menu', compact('totalStock', 'kategoriAll','allAdmin','allRiwayat'));
+    return view('.../layout/menu', compact('barangs','kategori','totalStock', 'kategoriAll','allAdmin','allRiwayat'));
 }
+public function unauthorized()
+{
+    return view('.../layout/unauthorized');
+}
+
 
 }

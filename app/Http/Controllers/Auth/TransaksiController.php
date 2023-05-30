@@ -16,12 +16,23 @@ class TransaksiController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function getAllRiwayat(){
+        $allRiwayat = list_transaksi::count();
+        return $allRiwayat;
+    }
+    public function getAllTotalTransaksi(){
+        $totalTransaksi = list_transaksi::sum('nominal');
+        return $totalTransaksi;
+    }
+    
     public function index()
     {
         $barangs = Barang::all();
         $kategori = kategori::all();
         $transaksis = list_transaksi::all();
-        return view('../layout/transaksi', compact('barangs','kategori','transaksis'));
+        $allRiwayat = $this->getAllRiwayat();
+        $totalTransaksi = $this->getAllTotalTransaksi();
+        return view('../layout/transaksi', compact('barangs','kategori','transaksis', 'allRiwayat', 'totalTransaksi'));
     }
 
     public function beli($id)

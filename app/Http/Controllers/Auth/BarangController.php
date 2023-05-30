@@ -30,12 +30,14 @@ class BarangController extends Controller
             'kategori' => 'required',
             'stok' => 'required|numeric',
             'lokasi' => 'required',
+            'harga' => 'required|numeric',
         ]);
         $barang = new Barang;
         $barang->merek = $request->input('merek');
         $barang->jenis_barang = $request->input('jenis_barang');
         $barang->kategori =  $request->input('kategori');
         $barang->jumlah_stok = $request->input('stok');
+        $barang->harga = $request->input('harga');
         $barang->lokasi = $request->input('lokasi');
         $barang->save();
 
@@ -103,6 +105,7 @@ class BarangController extends Controller
         $barang->jenis_barang = $request->jenis_barang;
         $barang->kategori = $request->kategori;
         $barang->jumlah_stok = $request->jumlah_stok;
+        $barang->harga = $request->harga;
         $barang->lokasi = $request->lokasi;
         $barang->save();
         

@@ -25,7 +25,9 @@
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
+  @if(Auth::check())
   <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('../assets/img/gudanglow.jpg'); background-position-y: 50%;">
+
     <span class="mask bg-primary opacity-6"></span>
   </div>
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
@@ -101,17 +103,10 @@
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
-            @if(Auth::check())
               <a href="javascript:;" class="nav-link text-white p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa fa-user me-sm-1"></i>
                 <span class="d-sm-inline d-none">{{ Auth::user()->nama_lengkap }}</span>
               </a>
-            @else
-              <a href="/login" class="nav-link text-white p-0">
-                <i class="fa fa-sign-in me-sm-1"></i>
-                <span class="d-sm-inline d-none">Login</span>
-              </a>
-            @endif
               <ul class="dropdown-menu dropdown-menu-end px-2 py-3 " aria-labelledby="dropdownMenuButton">
                     <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#dataDiri" >
                         <i class="fa fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i> Data Diri
@@ -143,7 +138,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Transaksi Terjadi</p>
                     <h6 class="font-weight-bolder">
-                     Box
+                    {{$allRiwayat}} Transaksi
                     </h6>
                   </div>
                 </div>
@@ -164,7 +159,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Pendapatan Transaksi</p>
                     <h6 class="font-weight-bolder">
-                    Rp.
+                    Rp.{{$totalTransaksi}}
                     </h6>
                   </div>
                 </div>
@@ -374,6 +369,22 @@
       </footer>
     </div>
   </main>
+  @elseif(!Auth::check())
+  <div class="container mt-8">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">Error 401 - Unauthorized User</div>
+                    <div class="card-body text-center">
+                        <h3><i class="fas fa-times-circle text-danger"></i><br>ERROR 401</h3>
+                        <h3>Oops! Anda tidak memiliki izin untuk mengakses halaman ini.</h3>
+                        <h6><a href="/login" class="text-primary">Login </a>sebagai admin untuk mendapatkan izin ke halaman ini!!</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>

@@ -13,6 +13,7 @@ class Event extends Model
         'id',
         'judul',
         'tanggal',
+        'habis',
     ];
 
     
