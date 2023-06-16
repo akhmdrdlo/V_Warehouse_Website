@@ -41,3 +41,29 @@
     {!! $calendar->script() !!}
 </body>
 </html>
+
+
+
+    <!-- Modal Hapus -->
+    <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="HapusModal">Upss!!</h4>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Apa kamu yakin ingin menghapus Record No.{{$logs->id}} ?</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('hapus-form').submit();">Hapus</a>
+              <form id="hapus-form" action="{{ route('log.destroy', $logs->id) }}" method="post" style="display: none;">
+                @csrf
+                @method('delete')
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>

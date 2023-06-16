@@ -23,9 +23,6 @@ Route::get('/daftar', function () {
 
 Route::get('/unauthorized', [App\Http\Controllers\Auth\IntegratedController::class, 'unauthorized']);
 
-Route::get('/register', [App\Http\Controllers\Auth\RegisterController::class, 'create']);
-Route::post('/register', [App\Http\Controllers\Auth\RegisterController::class, 'store']);
-
 Route::get('/signin', [App\Http\Controllers\Auth\LoginController::class, 'index']);
 Route::post('/signin', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 
@@ -56,3 +53,16 @@ Route::get('/transaksi', [App\Http\Controllers\Auth\TransaksiController::class, 
 Route::get('/calendar', [App\Http\Controllers\Auth\ScheduleController::class, 'index'])->name('calendar.index');
 Route::post('/calendar/add', [App\Http\Controllers\Auth\ScheduleController::class, 'index'])->name('calendar.store');
 
+Route::get('/admin', [App\Http\Controllers\Auth\RegisterController::class, 'indexAdmn']);
+
+Route::get('/daftarAdmin', [App\Http\Controllers\Auth\RegisterController::class, 'create']);
+Route::post('/daftarAdmin', [App\Http\Controllers\Auth\RegisterController::class, 'store']);
+
+Route::get('/updateAdmin/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'edit'])->name('admin.edit');
+Route::put('/updateAdmin/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'update'])->name('admin.update');
+
+Route::delete('/updateAdmin/{id}', [App\Http\Controllers\Auth\RegisterController::class, 'destroy'])->name('admin.destroy');
+
+Route::get('/logbarang',[App\Http\Controllers\Auth\BarangController::class, 'tampillog']);
+Route::delete('/logbarang/{id}', [App\Http\Controllers\Auth\BarangController::class, 'destroylog'])->name('log.destroy');
+?>

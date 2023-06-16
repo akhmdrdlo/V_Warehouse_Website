@@ -1,3 +1,5 @@
+{{Auth::logout()}}
+
 @if (session('success'))
     <div class="alert alert-success text-white">
         {{ session('success') }}
@@ -7,6 +9,7 @@
         {{ session('danger') }}
     </div>
 @endif
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -58,8 +61,11 @@
                 </div>
                 <div class="card-footer text-center pt-0 px-lg-2 px-1">
                   <p class="mb-4 text-sm mx-auto">
-                    Belum Memiliki Akun?
-                    <a href="/daftar" class="text-primary text-gradient font-weight-bold">Daftar Sekarang!!</a>
+                    Tidak memiliki akun? Yuk bertransaksi di
+                    <a href="/menu" class="text-primary text-gradient font-weight-bold">sini!!</a>
+                  </p>
+                  <p class="md-4 text-sm mx-auto">
+                    Silahkan Hubungi SuperAdministrator untuk mendaftarkan diri!!
                   </p>
                 </div>
               </div>

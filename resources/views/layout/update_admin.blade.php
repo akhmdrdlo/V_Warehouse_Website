@@ -26,19 +26,14 @@
 
 <body class="g-sidenav-show   bg-gray-100">
   <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('../assets/img/gudanglow.jpg'); background-position-y: 50%;">
-  @if(Auth::check())
     <span class="mask bg-primary opacity-6"></span>
-  @elseif(!Auth::check())
-    <span class="mask bg-secondary opacity-6"></span>
-  @endif
   </div>
-  @if(Auth::check())
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
         <img src="{{asset('assets/img/logo-ct-dark.png')}}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">V-Warehouse</span>
+        <span class="ms-1 mx-1 text-lg font-weight-bolder text-uppercase">V-Warehouse</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -101,7 +96,7 @@
       <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
     </div> -->
   </aside>
-@endif
+
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
@@ -111,7 +106,7 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">V-Warehouse</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Pembelian Barang</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Pengelola Admin</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
@@ -127,7 +122,7 @@
             @else
               <a href="/login" class="nav-link text-white p-0">
                 <i class="fa fa-sign-in me-sm-1"></i>
-                <span class="d-sm-inline d-none">Login Admin</span>
+                <span class="d-sm-inline d-none">Login</span>
               </a>
             @endif
               <ul class="dropdown-menu dropdown-menu-end px-2 py-3 " aria-labelledby="dropdownMenuButton">
@@ -145,57 +140,48 @@
     </nav> 
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      <div class="row justify-content-center">
-        @if(Auth::check())
+      <div class="row">
         <div class="col-md-12">
-        @elseif(!Auth::check())
-        <div class="col-md-6 ">
-          @endif
           <div class="card">
             <div class="card-header pb-0">
               <div class="d-flex">
-                <h5 class="mb-0">Form Pembelian Barang</h5>
+                <h5 class="mb-0">Update Data Admin</h5>
               </div>
             </div>
             <hr>
             <div class="card-body" style="margin-top:-25px;">
-              <form action="{{ route('proses.transaksi', $barang->id) }}" method="POST" role="form">
+              <form action="{{ route('admin.update', $admin->id) }}" method="POST" role="form">
               @csrf
+              @method('PUT')
               <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">Tanggal Transaksi</label>
-                        <input class="form-control" value="{{ date('Y-m-d') }}" autocomplete="off" type="date" name="tgl_transaksi" placeholder="Nama Merek Barang....">
-                    </div>
-                </div>
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Merek Barang</label>
-                    <input class="form-control" value="{{$barang->merek}}" autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
-                  </div>
-                </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nama Klien</label>
-                    <input class="form-control" autocomplete="off" type="text" name="nama" placeholder="Nama Klien...">
-                  </div>
-                </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Jumlah (per Box)</label>
-                    <input class="form-control" autocomplete="off" type="number" name="jumlah_transaksi" id="jumlahTransaksi" placeholder="Jumlah pembelian....">
-                  </div>
-                </div>
-                <div class="col-md-5">
-                  <div class="form-group">
-                    <br>
-                    <span class="font-weight-bolder bg-success text-white py-2 px-2 border-radius-md" id="totalHarga"></span>    
+                    <label for="example-text-input" class="form-control-label">Nama Lengkap</label>
+                    <input class="form-control" value="{{$admin->nama_lengkap}}" autocomplete="off" type="text" name="nama_lengkap" placeholder="Nama lengkap admin....">
                   </div>
                 </div>
               </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Username Admin</label>
+                    <input class="form-control" value="{{ $admin->uname }}" autocomplete="off" type="text" name="uname" placeholder="Username admin....">
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label for="example-text-input" class="form-control-label">Level Admin</label>
+                    <input class="form-control" value="{{ $admin->status }}" autocomplete="off" type="text" name="status" placeholder="Level admin....">
+                  </div>
+                </div>
                 <div class="row">
-                  <div class="col-md-12">
-                    <button class="form-control btn btn-md btn-primary col-md-10" type="submit"><i class="ni ni-cart"></i> | LAKUKAN TRANSAKSI </button>
+                  <div class="col-md-10">
+                    <button class="form-control btn btn-md btn-warning col-md-10" type="submit"><i class="fa fa-pen"></i> | EDIT ADMIN </button>
+                  </div>
+                  <div class="col-md-2">
+                    <a class="form-control btn btn-md btn-danger col-md-2" href="#" data-bs-toggle="modal" data-bs-target="#hapus">
+                        <i class="fas fa-trash fa-sm fa-fw mr-2 text-gray-400"></i> | HAPUS
+                    </a>
                   </div>
                 </div>
               </div>
@@ -204,9 +190,32 @@
           </div>
         </div>
       </div>
-      <footer class="footer pt-3">
+      <!-- Modal Hapus -->
+      <div class="modal fade" id="hapus" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="HapusModal">Upss!!</h4>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p>Apa kamu yakin ingin menghapus Data {{$admin->nama_lengkap}} ?</p>
+            </div>
+            <div class="modal-footer">
+              <a href="#" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('hapus-form').submit();">Hapus</a>
+              <form id="hapus-form" action="{{ route('admin.destroy', $admin->id) }}" method="post" style="display: none;">
+                @csrf
+                @method('delete')
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer pt-3  ">
         <div class="container-fluid">
-          <div class="row align-items-center justify-content-center">
+          <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
               <div class="copyright text-center text-sm text-muted text-lg-start">
                 © <script>
@@ -244,28 +253,6 @@
   <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.dataTables.min.js')}}"></script>
-  <script>
-    // Mendapatkan elemen input dan elemen untuk menampilkan total harga
-    var inputJumlahTransaksi = document.getElementById('jumlahTransaksi');
-    var totalHargaElemen = document.getElementById('totalHarga');
-    totalHargaElemen.textContent = 'Total Harga: Rp.';
-
-    // Menambahkan event listener pada input untuk memperbarui total harga
-    inputJumlahTransaksi.addEventListener('input', function() {
-      var jumlahTransaksi = parseInt(inputJumlahTransaksi.value);
-      var harga = <?php echo $barang->harga; ?>;
-      var totalHarga = jumlahTransaksi * harga;
-
-      // Menampilkan total harga
-      if(!totalHarga){
-        totalHargaElemen.textContent = 'Total Harga: Rp.0';
-      }else{
-        totalHargaElemen.textContent = 'Total Harga: Rp.' + totalHarga;
-      }
-      
-      
-    });
-  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

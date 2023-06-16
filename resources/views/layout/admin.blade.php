@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -25,24 +26,20 @@
 </head>
 
 <body class="g-sidenav-show   bg-gray-100">
+  @if(Auth::check())
   <div class="position-absolute w-100 min-height-300 top-0" style="background-image: url('../assets/img/gudanglow.jpg'); background-position-y: 50%;">
-  @if(Auth::check())
     <span class="mask bg-primary opacity-6"></span>
-  @elseif(!Auth::check())
-    <span class="mask bg-secondary opacity-6"></span>
-  @endif
   </div>
-  @if(Auth::check())
   <aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4 " id="sidenav-main">
     <div class="sidenav-header">
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
         <img src="{{asset('assets/img/logo-ct-dark.png')}}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">V-Warehouse</span>
+        <span class="ms-1 mx-1 text-lg font-weight-bolder text-uppercase">V-Warehouse</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
-    <div class="collapse navbar-collapse h-auto w-auto " id="sidenav-collapse-main">
+    <div class="collapse navbar-collapse h-auto  w-auto " id="sidenav-collapse-main">
       <ul class="navbar-nav">
       <li class="nav-item">
           <a class="nav-link" href="/menu">
@@ -53,7 +50,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="/barang">
+          <a class="nav-link" href="/barang">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-box-2 text-warning text-sm opacity-10"></i>
             </div>
@@ -72,7 +69,7 @@
           <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
         </li>
         <li class="nav-item">
-          <a class="nav-link " href="/admin">
+          <a class="nav-link active" href="/admin">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="fa fa-users-cog text-dark text-sm opacity-10"></i>
             </div>
@@ -101,7 +98,6 @@
       <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
     </div> -->
   </aside>
-@endif
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
     <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl " id="navbarBlur" data-scroll="false">
@@ -111,11 +107,10 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">V-Warehouse</a></li>
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan</li>
           </ol>
-          <h6 class="font-weight-bolder text-white mb-0">Pembelian Barang</h6>
+          <h6 class="font-weight-bolder text-white mb-0">Pengelola Admin</h6>
         </nav>
         <div class="collapse navbar-collapse mt-sm-0 mt-2 me-md-0 me-sm-4" id="navbar">
           <div class="ms-md-auto pe-md-3 d-flex align-items-center">
-
           </div>
           <ul class="navbar-nav  justify-content-end">
             <li class="nav-item dropdown pe-2 d-flex align-items-center">
@@ -127,7 +122,7 @@
             @else
               <a href="/login" class="nav-link text-white p-0">
                 <i class="fa fa-sign-in me-sm-1"></i>
-                <span class="d-sm-inline d-none">Login Admin</span>
+                <span class="d-sm-inline d-none">Login</span>
               </a>
             @endif
               <ul class="dropdown-menu dropdown-menu-end px-2 py-3 " aria-labelledby="dropdownMenuButton">
@@ -145,68 +140,137 @@
     </nav> 
     <!-- End Navbar -->
     <div class="container-fluid py-4">
-      <div class="row justify-content-center">
-        @if(Auth::check())
-        <div class="col-md-12">
-        @elseif(!Auth::check())
-        <div class="col-md-6 ">
-          @endif
-          <div class="card">
+      <div class="row">
+        <div class="col-12">
+        @if (session('success'))
+            <div class="alert alert-success text-white">
+                {{ session('success') }}
+            </div>
+        @elseif (session('warning'))
+            <div class="alert alert-warning text-white">
+                {{ session('warning') }}
+            </div>
+        @elseif (session('primary'))
+            <div class="alert alert-primary text-white">
+                {{ session('primary') }}
+            </div>
+        @elseif (session('danger'))
+            <div class="alert alert-danger text-white">
+                {{ session('danger') }}
+            </div>
+        @endif
+          <div class="card mb-4">
             <div class="card-header pb-0">
-              <div class="d-flex">
-                <h5 class="mb-0">Form Pembelian Barang</h5>
+              <h5>List Data Admin</h5>
+              @if (Auth::user()->status=='SuperAdmin')
+                <a href="#" data-bs-toggle="modal" data-bs-target="#tambahAdminModal" class="btn btn-success float-end" style="margin-top:-35px;">
+                  <i class="fa fa-user-plus mr-1"></i> Tambah Admin
+                </a>
+              @endif
+            </div>
+            <div class="card-body px-0 pt-0 pb-2">
+              <div class="table-responsive mx-4 text-center">
+                <table class="table text-center align-items-center mb-0" id="tabel">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">No</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Username Admin</th>
+                      <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Nama Lengkap</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tanggal Daftar</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Status</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  @foreach($admin as $orang)
+                    <tr>
+                      <td> 
+                        <div class="d-flex px-2 py-1">
+                          <h4 class="mb-0 text-xs">{{$loop->iteration}}</h4>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs  font-weight-bold mb-0">{{$orang->uname}}</p>
+                      </td>
+                      <td class="align-middle text-center text-xs">
+                        <p class="text-xs text-uppercase font-weight-bold mb-0">{{$orang->nama_lengkap}}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{$orang->created_at}}</span>
+                      </td>                      
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{$orang->status}}</span>
+                      </td>
+                      <td>
+                        <a href="{{ route('admin.edit', $orang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit Admin">
+                           <span class="badge badge-sm bg-warning"><i class="fa fa-pen"></i> Edit</span>
+                        </a>
+                      </td>
+                    </tr>
+                    @endforeach
+                  </tbody>
+                </table>
               </div>
             </div>
-            <hr>
-            <div class="card-body" style="margin-top:-25px;">
-              <form action="{{ route('proses.transaksi', $barang->id) }}" method="POST" role="form">
-              @csrf
-              <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="example-text-input" class="form-control-label">Tanggal Transaksi</label>
-                        <input class="form-control" value="{{ date('Y-m-d') }}" autocomplete="off" type="date" name="tgl_transaksi" placeholder="Nama Merek Barang....">
-                    </div>
+          </div>
+        </div>
+      </div>
+      <!-- Modal Tambah Barang -->
+      <div class="modal fade" id="tambahAdminModal" tabindex="-3" role="dialog" aria-labelledby="tambahAdminModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header justify-content-center">
+              <h5 class="modal-title font-weight-bolder" id="tambahAdminModalLabel"> Daftar Admin Baru </h5>
+            </div>
+            <div class="modal-body">
+            <form role="form" method="post" action="/daftarAdmin">
+                @csrf
+                <div class="mb-3">
+                  <input type="text" name="nama_lengkap" required autocomplete="off" class="form-control" placeholder="Nama Anda..." aria-label="nama_lengkap">
                 </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Merek Barang</label>
-                    <input class="form-control" value="{{$barang->merek}}" autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
-                  </div>
+              <div class="mb-3">
+                  <input type="text" name="uname" required autocomplete="off" class="form-control" placeholder="Username Anda..." aria-label="uname">
                 </div>
-                <div class="col-md-4">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Nama Klien</label>
-                    <input class="form-control" autocomplete="off" type="text" name="nama" placeholder="Nama Klien...">
-                  </div>
+                <div class="mb-3">
+                  <input type="password" name="password" required autocomplete="off" class="form-control" placeholder="Password Anda" aria-label="password">
                 </div>
-                <div class="col-md-3">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Jumlah (per Box)</label>
-                    <input class="form-control" autocomplete="off" type="number" name="jumlah_transaksi" id="jumlahTransaksi" placeholder="Jumlah pembelian....">
-                  </div>
+                <input type="text" name="status" value="Anggota" id="" hidden>
+                <div class="text-center">
+                  <button type="submit" class="btn bg-gradient-warning w-100 my-4 mb-2"><i class="fa fa-user-plus"></i> | D A F T A R</button>
                 </div>
-                <div class="col-md-5">
-                  <div class="form-group">
-                    <br>
-                    <span class="font-weight-bolder bg-success text-white py-2 px-2 border-radius-md" id="totalHarga"></span>    
-                  </div>
-                </div>
-              </div>
-                <div class="row">
-                  <div class="col-md-12">
-                    <button class="form-control btn btn-md btn-primary col-md-10" type="submit"><i class="ni ni-cart"></i> | LAKUKAN TRANSAKSI </button>
-                  </div>
-                </div>
-              </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <footer class="footer pt-3">
+
+      <!-- Modal Logout -->
+      <div class="modal fade" id="logout" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="exampleModalLabelLogout">Upss!!</h4>
+              <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @if(Auth::check())
+            <div class="modal-body">
+              <p>Apa kamu yakin ingin Logout,{{ Auth::user()->nama_lengkap }} ?</p>
+            </div>
+            @endif
+            <div class="modal-footer">
+              <a href="/logout" class="btn btn-outline-danger" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="footer pt-3  ">
         <div class="container-fluid">
-          <div class="row align-items-center justify-content-center">
+          <div class="row align-items-center justify-content-lg-between">
             <div class="col-lg-6 mb-lg-0 mb-4">
               <div class="copyright text-center text-sm text-muted text-lg-start">
                 © <script>
@@ -237,6 +301,22 @@
       </footer>
     </div>
   </main>
+  @elseif(!Auth::check())
+  <div class="container mt-8">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header text-center">Error 401 - Unauthorized User</div>
+                    <div class="card-body text-center">
+                        <h3><i class="fas fa-times-circle text-danger"></i><br>ERROR 401</h3>
+                        <h3>Oops! Anda tidak memiliki izin untuk mengakses halaman ini.</h3>
+                        <h6><a href="/login" class="text-primary">Login </a>sebagai admin untuk mendapatkan izin ke halaman ini!!</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endif
   <!--   Core JS Files   -->
   <script src="{{asset('assets/js/core/popper.min.js')}}"></script>
   <script src="{{asset('assets/js/core/bootstrap.min.js')}}"></script>
@@ -244,28 +324,6 @@
   <script src="{{asset('assets/js/plugins/smooth-scrollbar.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.min.js')}}"></script>
   <script src="{{asset('assets/js/jquery.dataTables.min.js')}}"></script>
-  <script>
-    // Mendapatkan elemen input dan elemen untuk menampilkan total harga
-    var inputJumlahTransaksi = document.getElementById('jumlahTransaksi');
-    var totalHargaElemen = document.getElementById('totalHarga');
-    totalHargaElemen.textContent = 'Total Harga: Rp.';
-
-    // Menambahkan event listener pada input untuk memperbarui total harga
-    inputJumlahTransaksi.addEventListener('input', function() {
-      var jumlahTransaksi = parseInt(inputJumlahTransaksi.value);
-      var harga = <?php echo $barang->harga; ?>;
-      var totalHarga = jumlahTransaksi * harga;
-
-      // Menampilkan total harga
-      if(!totalHarga){
-        totalHargaElemen.textContent = 'Total Harga: Rp.0';
-      }else{
-        totalHargaElemen.textContent = 'Total Harga: Rp.' + totalHarga;
-      }
-      
-      
-    });
-  </script>
   <script>
     var win = navigator.platform.indexOf('Win') > -1;
     if (win && document.querySelector('#sidenav-scrollbar')) {

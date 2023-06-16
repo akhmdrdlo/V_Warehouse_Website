@@ -40,7 +40,7 @@
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
         <img src="{{asset('assets/img/logo-ct-dark.png')}}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">V-Warehouse</span>
+        <span class="ms-1 mx-1 text-lg font-weight-bolder text-uppercase">V-Warehouse</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -70,14 +70,25 @@
             <span class="nav-link-text ms-1">Riwayat Transaksi</span>
           </a>
         </li>
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
+        </li>
         <li class="nav-item">
+          <a class="nav-link " href="/admin">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-users-cog text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Data Admin</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item">
           <a class="nav-link " href="../pages/virtual-reality.html">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-info text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Jadwal Gudang</span>
           </a>
-        </li>
+        </li> -->
       </ul>
     </div>
   </aside>
@@ -91,8 +102,9 @@
             <li class="breadcrumb-item text-sm"><a class="opacity-5 text-white" href="javascript:;">V-Warehouse</a></li>
             @if(Auth::check())
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan Admin</li>
-            @endif
+            @elseif(!Auth::check())
             <li class="breadcrumb-item text-sm text-white active" aria-current="page">Tampilan User</li>
+            @endif
           </ol>
           <h6 class="font-weight-bolder text-white mb-0">Menu Utama</h6>
         </nav>
@@ -113,12 +125,6 @@
               </a>
             @endif
               <ul class="dropdown-menu dropdown-menu-end px-2 " aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#dataDiri" >
-                        <i class="fa fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i> Data Diri
-                    </a>
-                    <a class="dropdown-item" href="admin.php" >
-                        <i class="fa fa-user-alt fa-sm fa-fw mr-2 text-gray-400"></i> Data Admin
-                    </a>
                     <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#logout">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                     </a>
@@ -231,9 +237,9 @@
           <div class="card">
             <div class="card-header pb-0 p-3">
               <h4 class="mb-0">Real-time Calendar</h4>
-              @if (session('id'))
+              <!-- @if (session('id'))
                 <button type="button" class="btn btn-primary float-end" style="margin-top:-35px;" data-bs-toggle="modal" data-bs-target="#addEventModal"><i class="fa fa-plus mr-1"></i> Tambah Jadwal</button>
-              @endif
+              @endif -->
             </div>
             <div class="card-body">
               <div id="calendar"></div>

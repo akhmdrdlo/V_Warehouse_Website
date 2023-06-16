@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Barang;
 use App\Models\kategori;
+use App\Models\log;
 
 class BarangController extends Controller
 {
@@ -40,6 +41,13 @@ class BarangController extends Controller
         $barang->harga = $request->input('harga');
         $barang->lokasi = $request->input('lokasi');
         $barang->save();
+
+        $log = new log();
+        $log->merek = $request->input('merek');
+        $log->uname = Auth::user()->uname;
+        $log->jumlah = '+'.$request->input('stok');
+        $log->proses = "TAMBAH STOK";
+        $log->save();
 
         return redirect('/barang')->with('success', 'Data Barang berhasil ditambahkan!!');
     }
@@ -100,6 +108,13 @@ class BarangController extends Controller
         //tarik kategori id dan ubah jadi nama kategorinya, misal id=1 dengan nama=Alat tulis maka yang ditulis akan menjadi alat tulis
         $kategori_id = kategori::where('kategori', $request->kategori)->value('id');
         $barang = Barang::findOrFail($id);
+        if($barang->jumlah_stok >= $request->jumlah_stok){
+            $stok = $barang->jumlah_stok - $request->jumlah_stok;
+            $finalstok = '-'.$stok;
+        }else if($barang->jumlah_stok <= $request->jumlah_stok){
+            $stok = $request->jumlah_stok - $barang->jumlah_stok;
+            $finalstok = '+'.$stok;
+        }
         //tarik data yang diinput user dan ubah data di database dengan inputan user tadi
         $barang->merek = $request->merek;
         $barang->jenis_barang = $request->jenis_barang;
@@ -109,8 +124,20 @@ class BarangController extends Controller
         $barang->lokasi = $request->lokasi;
         $barang->save();
         
+        $log = new log();
+        $log->merek = $barang->merek;
+        $log->uname = Auth::user()->uname;
+        $log->jumlah = $finalstok;
+        $log->proses = "UPDATE STOK";
+        $log->save();
+        
         //bila berhasil diubah, kembali ke page barang dan munculkan alert
         return redirect('/barang')->with('success', 'Data Barang berhasil diubah!!');
+    }
+
+    public function tampillog(){
+        $logs = log::all();
+        return view('../layout/logbarang', compact('logs'));
     }
 
     /**
@@ -119,10 +146,15 @@ class BarangController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function destroy($id)
     {
         Barang::findOrFail($id)->delete();
         return redirect('/barang')->with('warning', 'Barang berhasil dihapus.');
     }
 
+    public function destroylog($id){
+        log::findOrFail($id)->delete();
+        return redirect('/logbarang')->with('warning', 'Record berhasil dihapus.');
+    }
 }

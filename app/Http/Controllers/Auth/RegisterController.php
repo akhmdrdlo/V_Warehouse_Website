@@ -20,6 +20,12 @@ class RegisterController extends Controller
         return view('.../layout/daftar');
     }
 
+    public function indexAdmn()
+    {
+        $admin = User::all();
+        return view('../layout/admin', compact('admin'));
+    }
+
     public function create()
     {
         return view('register');
@@ -37,6 +43,7 @@ class RegisterController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->nama_lengkap = $request->input('nama_lengkap');
         $user->status = $request->input('status');
+        $user->notelp = $request->input('notelp');
         $user->save();
 
         return redirect('/login')->with('success', 'Akun Anda berhasil dibuat! Silakan login untuk melanjutkan.');
@@ -68,7 +75,8 @@ class RegisterController extends Controller
      */
     public function edit($id)
     {
-        //
+        $admin = User::findOrFail($id); //mencari admin dengan id yang sesuai atau menampilkan 404 jika tidak ditemukan  
+        return view('../layout/update_admin', compact('admin'));
     }
 
     /**
@@ -80,7 +88,15 @@ class RegisterController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $admin = User::findOrFail($id);
+        //tarik data yang diinput user dan ubah data di database dengan inputan user tadi
+        $admin->uname = $request->uname;
+        $admin->nama_lengkap = $request->nama_lengkap;
+        $admin->status = $request->status;
+        $admin->save();
+        
+        //bila berhasil diubah, kembali ke page barang dan munculkan alert
+        return redirect('/admin')->with('success', 'Data Admin berhasil diubah!!');
     }
 
     /**
@@ -91,6 +107,7 @@ class RegisterController extends Controller
      */
     public function destroy($id)
     {
-        //
+        User::findOrFail($id)->delete();
+        return redirect('/admin')->with('warning', 'Data Admin berhasil dihapus!!');
     }
 }

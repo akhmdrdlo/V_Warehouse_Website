@@ -33,7 +33,7 @@
       <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
       <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/argon-dashboard/pages/dashboard.html " target="_blank">
         <img src="{{asset('assets/img/logo-ct-dark.png')}}" class="navbar-brand-img h-100" alt="main_logo">
-        <span class="ms-1 font-weight-bold">V-Warehouse</span>
+        <span class="ms-1 mx-1 text-lg font-weight-bolder text-uppercase">V-Warehouse</span>
       </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -63,14 +63,25 @@
             <span class="nav-link-text ms-1">Riwayat Transaksi</span>
           </a>
         </li>
+        <li class="nav-item mt-3">
+          <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Halaman Akun</h6>
+        </li>
         <li class="nav-item">
+          <a class="nav-link " href="/admin">
+            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+              <i class="fa fa-users-cog text-dark text-sm opacity-10"></i>
+            </div>
+            <span class="nav-link-text ms-1">Data Admin</span>
+          </a>
+        </li>
+        <!-- <li class="nav-item">
           <a class="nav-link " href="../pages/virtual-reality.html">
             <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
               <i class="ni ni-calendar-grid-58 text-info text-sm opacity-10"></i>
             </div>
             <span class="nav-link-text ms-1">Jadwal Gudang</span>
           </a>
-        </li>
+        </li> -->
     <!-- <div class="sidenav-footer mx-3 ">
       <div class="card card-plain shadow-none" id="sidenavCard">
         <img class="w-50 mx-auto" src="{{asset('assets/img/illustrations/icon-documentation.svg')}}" alt="sidebar_illustration">
@@ -115,12 +126,6 @@
               </a>
             @endif
               <ul class="dropdown-menu dropdown-menu-end px-2 py-3 " aria-labelledby="dropdownMenuButton">
-                    <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#dataDiri" >
-                        <i class="fa fa-user-circle fa-sm fa-fw mr-2 text-gray-400"></i> Data Diri
-                    </a>
-                    <a class="dropdown-item" href="admin.php" >
-                        <i class="fa fa-user-alt fa-sm fa-fw mr-2 text-gray-400"></i> Data Admin
-                    </a>
                     <a class="dropdown-item" href="/logout" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i> Logout
                     </a>
@@ -149,16 +154,10 @@
               @csrf
               @method('PUT')
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Merek Barang</label>
                     <input class="form-control" value="{{$barang->merek}}" autocomplete="off" type="text" name="merek" placeholder="Nama Merek Barang....">
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Jenis Barang</label>
-                    <input class="form-control" value="{{ $barang->jenis_barang }}" autocomplete="off" type="text" name="jenis_barang" placeholder="Jenis Barang....">
                   </div>
                 </div>
               </div>

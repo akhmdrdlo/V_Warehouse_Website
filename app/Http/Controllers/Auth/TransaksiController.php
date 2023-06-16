@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Barang;
 use App\Models\kategori;
 use App\Models\list_transaksi;
+use App\Models\log;
 
 class TransaksiController extends Controller
 {
@@ -72,7 +73,10 @@ class TransaksiController extends Controller
         $jumlahTransaksi = $request->input('jumlah_transaksi');
         // Menghitung total nominal harga
         $totalNominalHarga = $jumlahTransaksi * $harga;
+        //hitung perubahan stok
+        $jumlahTotal = $barang->jumlah_stok - $jumlahTransaksi;
 
+        //input data ke database
         $transaksi = new list_transaksi;
         $transaksi->tgl_transaksi = $request->input('tgl_transaksi');
         $transaksi->merek = $request->input('merek');
@@ -81,7 +85,20 @@ class TransaksiController extends Controller
         $transaksi->nominal = $totalNominalHarga;
         $transaksi->save();
 
-        return redirect('/transaksi')->with('success', 'Transaksi berhasil,Terimakasih udah berbelanja!!');
+        //buat log baru
+        $log = new log();
+        $log->merek = $request->input('merek');
+        $log->uname = $request->input('nama');
+        $log->jumlah = '-'.$jumlahTotal;
+        $log->proses = "BELI STOK";
+        $log->save();
+
+        if(Auth::check()){
+            return redirect('/transaksi')->with('success', 'Transaksi berhasil ditambahkan!!');
+        } elseif(!Auth::check()){
+            return redirect('/menu')->with('success', 'Transaksi berhasil,Terimakasih udah berbelanja '.$request->input('nama').'!!');
+        }
+        
     }
 
     /**

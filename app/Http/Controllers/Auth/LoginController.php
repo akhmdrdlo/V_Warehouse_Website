@@ -17,12 +17,13 @@ class LoginController extends Controller
         $credentials = $request->only('uname', 'password');
         if (Auth::attempt($credentials)) { //melakukan autentifikasi 
             // Authentikasi berhasil dilakukan
+            $uname = Auth::user()->uname;
             $nama_lengkap = Auth::user()->nama_lengkap; //menambahkan variabel $nama_lengkap untuk session menu
             session(['id' => Auth::user()->uname]); //buat session untuk menampilkan nama (uname) dimenu
             return redirect('/menu')->with('success', "Selamat datang kembali, $nama_lengkap di V-Warehouse!!");
         } else {
             // Authentikasi gagal dilakukan
-            return redirect('/login')->with('error', 'Username atau password yang Anda masukkan salah. Silakan coba lagi.');
+            return redirect('/login')->with('danger', 'Username atau password yang Anda masukkan salah. Silakan coba lagi.');
         }
     }
 
