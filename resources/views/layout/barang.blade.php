@@ -183,7 +183,7 @@
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Merek Barang</th>
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Kategori</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Jumlah Stok</th>
-                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Harga Per Box</th>
+                      <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Harga Per Boks</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Lokasi Penempatan</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
                     </tr>
@@ -217,7 +217,7 @@
                         </a>
                         @if(session('id'))
                         <a href="{{ route('barang.edit', $barang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit barang">
-                          <span class="badge badge-sm bg-warning"><i class="fa fa-pen"></i> Edit</span>
+                          <span class="badge badge-sm bg-warning"><i class="fa fa-pen"></i> Ubah</span>
                         </a>
                         @endif
                       </td>
@@ -354,7 +354,7 @@
                   document.write(new Date().getFullYear())
                 </script> |
                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Akhmad Ridlo Rifa'i</a>
-                from UIN Sunan Gunung Djati Bandung
+                dari UIN Sunan Gunung Djati Bandung
               </div>
             </div>
             <!-- <div class="col-lg-6">

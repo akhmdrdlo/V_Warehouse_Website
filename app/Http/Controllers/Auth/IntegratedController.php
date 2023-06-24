@@ -28,6 +28,10 @@ class IntegratedController extends Controller
         $allRiwayat = list_transaksi::count();
         return $allRiwayat;
     }
+    public function getTotalMerek(){
+        $totalMerek = Barang::count('merek');
+        return $totalMerek;
+    }
     public function index()
 {
     $barangs = Barang::all();
@@ -35,8 +39,9 @@ class IntegratedController extends Controller
     $totalStock = $this->getTotalStok();
     $kategoriAll = $this->getTotalKategori();
     $allAdmin = $this->getAllAdmin();
-    $allRiwayat = $this->getAllRiwayat();
-    return view('.../layout/menu', compact('barangs','kategori','totalStock', 'kategoriAll','allAdmin','allRiwayat'));
+    $allMerek = $this->getTotalMerek();
+    $totalTransaksi = list_transaksi::sum('nominal');
+    return view('.../layout/menu', compact('barangs','kategori','totalStock', 'kategoriAll','allAdmin','allMerek','totalTransaksi'));
 }
 public function unauthorized()
 {

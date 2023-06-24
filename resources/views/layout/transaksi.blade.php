@@ -293,7 +293,7 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="form-group">
-                      <label for="example-text-input" class="form-control-label">Stok Barang (dalam Box)</label>
+                      <label for="example-text-input" class="form-control-label">Stok Barang (dalam Boks)</label>
                       <input class="form-control" required autocomplete="off" type="number" name="stok" placeholder="Stok Barang....">
                     </div>
                   </div>
@@ -350,7 +350,7 @@
                   document.write(new Date().getFullYear())
                 </script> |
                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Akhmad Ridlo Rifa'i</a>
-                from UIN Sunan Gunung Djati Bandung
+                dari UIN Sunan Gunung Djati Bandung
               </div>
             </div>
             <!-- <div class="col-lg-6">

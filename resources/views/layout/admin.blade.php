@@ -76,27 +76,6 @@
             <span class="nav-link-text ms-1">Data Admin</span>
           </a>
         </li>
-        <!-- <li class="nav-item">
-          <a class="nav-link " href="../pages/virtual-reality.html">
-            <div class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
-              <i class="ni ni-calendar-grid-58 text-info text-sm opacity-10"></i>
-            </div>
-            <span class="nav-link-text ms-1">Jadwal Gudang</span>
-          </a>
-        </li> -->
-    <!-- <div class="sidenav-footer mx-3 ">
-      <div class="card card-plain shadow-none" id="sidenavCard">
-        <img class="w-50 mx-auto" src="{{asset('assets/img/illustrations/icon-documentation.svg')}}" alt="sidebar_illustration">
-        <div class="card-body text-center p-3 w-100 pt-0">
-          <div class="docs-info">
-            <h6 class="mb-0">Need help?</h6>
-            <p class="text-xs font-weight-bold mb-0">Please check our docs</p>
-          </div>
-        </div>
-      </div>
-      <a href="https://www.creative-tim.com/learning-lab/bootstrap/license/argon-dashboard" target="_blank" class="btn btn-dark btn-sm w-100 mb-3">Documentation</a>
-      <a class="btn btn-primary btn-sm mb-0 w-100" href="https://www.creative-tim.com/product/argon-dashboard-pro?ref=sidebarfree" type="button">Upgrade to pro</a>
-    </div> -->
   </aside>
   <main class="main-content position-relative border-radius-lg ">
     <!-- Navbar -->
@@ -167,6 +146,9 @@
                   <i class="fa fa-user-plus mr-1"></i> Tambah Admin
                 </a>
               @endif
+              <a href="{{ route('admin.edit', Auth::user()->id) }}" class="btn btn-warning  float-end mx-2" style="margin-top:-35px;" data-toggle="tooltip" data-original-title="Edit Admin">
+                <i class="fa fa-pen"></i> Edit Profil Anda
+              </a>
             </div>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive mx-4 text-center">
@@ -178,7 +160,9 @@
                       <th class="text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ps-2">Nama Lengkap</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Tanggal Daftar</th>
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7">Status</th>
+                      @if (Auth::user()->status=='SuperAdmin')
                       <th class="text-center text-uppercase text-secondary text-xs font-weight-bolder opacity-7 ">Pengaturan</th>
+                      @endif
                     </tr>
                   </thead>
                   <tbody>
@@ -201,11 +185,13 @@
                       <td class="align-middle text-center">
                         <span class="text-secondary text-xs font-weight-bold">{{$orang->status}}</span>
                       </td>
+                      @if (Auth::user()->status=='SuperAdmin')
                       <td>
                         <a href="{{ route('admin.edit', $orang->id) }}" class="text-secondary font-weight-bold text-md" data-toggle="tooltip" data-original-title="Edit Admin">
-                           <span class="badge badge-sm bg-warning"><i class="fa fa-pen"></i> Edit</span>
+                           <span class="badge badge-sm bg-warning"><i class="fa fa-pen"></i> Ubah</span>
                         </a>
                       </td>
+                      @endif
                     </tr>
                     @endforeach
                   </tbody>
@@ -234,7 +220,7 @@
                 <div class="mb-3">
                   <input type="password" name="password" required autocomplete="off" class="form-control" placeholder="Password Anda" aria-label="password">
                 </div>
-                <input type="text" name="status" value="Anggota" id="" hidden>
+                <input type="text" name="status" value="Admin" id="" hidden>
                 <div class="text-center">
                   <button type="submit" class="btn bg-gradient-warning w-100 my-4 mb-2"><i class="fa fa-user-plus"></i> | D A F T A R</button>
                 </div>

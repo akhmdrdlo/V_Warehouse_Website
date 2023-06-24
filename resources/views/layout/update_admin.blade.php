@@ -168,12 +168,24 @@
                     <input class="form-control" value="{{ $admin->uname }}" autocomplete="off" type="text" name="uname" placeholder="Username admin....">
                   </div>
                 </div>
+                @if (Auth::user()->status=='SuperAdmin')
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="example-text-input" class="form-control-label">Level Admin</label>
                     <input class="form-control" value="{{ $admin->status }}" autocomplete="off" type="text" name="status" placeholder="Level admin....">
                   </div>
                 </div>
+                @endif
+                @if (Auth::user()->id==$admin->id)
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label for="example-text-input" class="form-control-label">Ubah Password</label>
+                      <input class="form-control" autocomplete="off" type="password" name="password" placeholder="Ubah Password kamu....">
+                    </div>
+                  </div>
+                </div>
+                @endif
                 <div class="row">
                   <div class="col-md-10">
                     <button class="form-control btn btn-md btn-warning col-md-10" type="submit"><i class="fa fa-pen"></i> | EDIT ADMIN </button>
@@ -222,7 +234,7 @@
                   document.write(new Date().getFullYear())
                 </script> |
                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Akhmad Ridlo Rifa'i</a>
-                from UIN Sunan Gunung Djati Bandung
+                dari UIN Sunan Gunung Djati Bandung
               </div>
             </div>
             <!-- <div class="col-lg-6">

@@ -74,30 +74,39 @@ class TransaksiController extends Controller
         // Menghitung total nominal harga
         $totalNominalHarga = $jumlahTransaksi * $harga;
         //hitung perubahan stok
-        $jumlahTotal = $barang->jumlah_stok - $jumlahTransaksi;
 
-        //input data ke database
-        $transaksi = new list_transaksi;
-        $transaksi->tgl_transaksi = $request->input('tgl_transaksi');
-        $transaksi->merek = $request->input('merek');
-        $transaksi->nama =  $request->input('nama');
-        $transaksi->jumlah_transaksi = $jumlahTransaksi;
-        $transaksi->nominal = $totalNominalHarga;
-        $transaksi->save();
+        if($jumlahTransaksi < $barang->jumlah_stok){
+            //input data ke database
+            $transaksi = new list_transaksi;
+            $transaksi->tgl_transaksi = $request->input('tgl_transaksi');
+            $transaksi->merek = $request->input('merek');
+            $transaksi->nama =  $request->input('nama');
+            $transaksi->jumlah_transaksi = $jumlahTransaksi;
+            $transaksi->nominal = $totalNominalHarga;
+            $transaksi->save();
 
-        //buat log baru
-        $log = new log();
-        $log->merek = $request->input('merek');
-        $log->uname = $request->input('nama');
-        $log->jumlah = '-'.$jumlahTotal;
-        $log->proses = "BELI STOK";
-        $log->save();
+            //buat log baru
+            $log = new log();
+            $log->merek = $request->input('merek');
+            $log->uname = $request->input('nama');
+            $log->jumlah = '-'.$jumlahTransaksi;
+            $log->proses = "BELI STOK";
+            $log->save();
 
-        if(Auth::check()){
-            return redirect('/transaksi')->with('success', 'Transaksi berhasil ditambahkan!!');
-        } elseif(!Auth::check()){
-            return redirect('/menu')->with('success', 'Transaksi berhasil,Terimakasih udah berbelanja '.$request->input('nama').'!!');
+            if(Auth::check()){
+                return redirect('/transaksi')->with('success', 'Transaksi berhasil ditambahkan!!');
+            } elseif(!Auth::check()){
+                return redirect('/menu')->with('success', 'Transaksi berhasil,Terimakasih udah berbelanja '.$request->input('nama').'!!');
+            }
+        }else if($jumlahTransaksi > $barang->jumlah_stok){
+            if(Auth::check()){
+                return redirect('/transaksi')->with('danger', 'Transaksi gagal ditambahkan, pembelian melebihi jumlah stok!!');
+            } elseif(!Auth::check()){
+                return redirect('/menu')->with('danegr', 'Transaksi gagal, Pembelian anda melebihi jumlah stok!!');
+            }
         }
+
+
         
     }
 

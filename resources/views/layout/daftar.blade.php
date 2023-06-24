@@ -75,7 +75,7 @@
           <h5 class="mb-0 text-secondary text-sm text-weight-bolder">
             Copyright © <script>
               document.write(new Date().getFullYear())
-            </script> By Akhmad Ridlo-IF 2022 | UIN Sunan Gunung Djati Bandung
+            </script> Oleh Akhmad Ridlo-IF 2022 | UIN Sunan Gunung Djati Bandung
           </h5>
         </div>
       </div>

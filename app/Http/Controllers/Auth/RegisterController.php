@@ -43,10 +43,9 @@ class RegisterController extends Controller
         $user->password = bcrypt($request->input('password'));
         $user->nama_lengkap = $request->input('nama_lengkap');
         $user->status = $request->input('status');
-        $user->notelp = $request->input('notelp');
         $user->save();
 
-        return redirect('/login')->with('success', 'Akun Anda berhasil dibuat! Silakan login untuk melanjutkan.');
+        return redirect('/admin')->with('success', 'Akun '.$request->input('nama_lengkap').' berhasil dibuat! Silakan login untuk melanjutkan.');
     }
 
     /**
@@ -93,10 +92,16 @@ class RegisterController extends Controller
         $admin->uname = $request->uname;
         $admin->nama_lengkap = $request->nama_lengkap;
         $admin->status = $request->status;
+        $admin->password = bcrypt($request->input('password'));
         $admin->save();
         
-        //bila berhasil diubah, kembali ke page barang dan munculkan alert
-        return redirect('/admin')->with('success', 'Data Admin berhasil diubah!!');
+        if($id==Auth::user()->id){
+            return redirect('/admin')->with('success', 'Data diri kamu berhasil diubah!!');
+        }else{
+            //bila berhasil diubah, kembali ke page barang dan munculkan alert
+            return redirect('/admin')->with('success', 'Data Admin berhasil diubah!!');
+        }
+
     }
 
     /**

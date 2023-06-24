@@ -27,7 +27,6 @@ class BarangController extends Controller
         $kategori_id = kategori::where('kategori', $request->kategori)->value('id');
         $validatedData = $request->validate([
             'merek' => 'required',
-            'jenis_barang' => 'required',
             'kategori' => 'required',
             'stok' => 'required|numeric',
             'lokasi' => 'required',
@@ -35,7 +34,6 @@ class BarangController extends Controller
         ]);
         $barang = new Barang;
         $barang->merek = $request->input('merek');
-        $barang->jenis_barang = $request->input('jenis_barang');
         $barang->kategori =  $request->input('kategori');
         $barang->jumlah_stok = $request->input('stok');
         $barang->harga = $request->input('harga');
@@ -117,7 +115,6 @@ class BarangController extends Controller
         }
         //tarik data yang diinput user dan ubah data di database dengan inputan user tadi
         $barang->merek = $request->merek;
-        $barang->jenis_barang = $request->jenis_barang;
         $barang->kategori = $request->kategori;
         $barang->jumlah_stok = $request->jumlah_stok;
         $barang->harga = $request->harga;
@@ -149,7 +146,18 @@ class BarangController extends Controller
 
     public function destroy($id)
     {
-        Barang::findOrFail($id)->delete();
+        $barang=Barang::findOrFail($id);
+        $stok = $barang->jumlah_stok;
+        $barang->delete();
+
+        $finalstok = '-'.$stok;
+        $log = new log();
+        $log->merek = $barang->merek;
+        $log->uname = Auth::user()->uname;
+        $log->jumlah = $finalstok;
+        $log->proses = "HAPUS STOK";
+        $log->save();
+
         return redirect('/barang')->with('warning', 'Barang berhasil dihapus.');
     }
 

@@ -273,7 +273,7 @@
                   document.write(new Date().getFullYear())
                 </script> |
                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Akhmad Ridlo Rifa'i</a>
-                from UIN Sunan Gunung Djati Bandung
+                dari UIN Sunan Gunung Djati Bandung
               </div>
             </div>
             <!-- <div class="col-lg-6">

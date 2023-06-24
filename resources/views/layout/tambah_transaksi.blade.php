@@ -180,16 +180,17 @@
                     <input class="form-control" autocomplete="off" type="text" name="nama" placeholder="Nama Klien...">
                   </div>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
                   <div class="form-group">
-                    <label for="example-text-input" class="form-control-label">Jumlah (per Box)</label>
+                    <label for="example-text-input" class="form-control-label">Jumlah(Box)</label>
                     <input class="form-control" autocomplete="off" type="number" name="jumlah_transaksi" id="jumlahTransaksi" placeholder="Jumlah pembelian....">
                   </div>
                 </div>
                 <div class="col-md-5">
                   <div class="form-group">
+                    <span class="font-weight-bolder text-uppercase text-md" class="form-control-span" id="totalStok"></span>
                     <br>
-                    <span class="font-weight-bolder bg-success text-white py-2 px-2 border-radius-md" id="totalHarga"></span>    
+                    <span class="font-weight-bolder bg-success text-white py-1 px-2 border-radius-md" id="totalHarga"></span>    
                   </div>
                 </div>
               </div>
@@ -213,7 +214,7 @@
                   document.write(new Date().getFullYear())
                 </script> |
                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Akhmad Ridlo Rifa'i</a>
-                from UIN Sunan Gunung Djati Bandung
+                dari UIN Sunan Gunung Djati Bandung
               </div>
             </div>
             <!-- <div class="col-lg-6">
@@ -247,12 +248,16 @@
   <script>
     // Mendapatkan elemen input dan elemen untuk menampilkan total harga
     var inputJumlahTransaksi = document.getElementById('jumlahTransaksi');
+    var stok = <?php echo $barang->jumlah_stok; ?>;
+    var totalStokElemen = document.getElementById('totalStok');
+    totalStokElemen.textContent = 'Total Stok Saat ini : '+ stok;
     var totalHargaElemen = document.getElementById('totalHarga');
     totalHargaElemen.textContent = 'Total Harga: Rp.';
 
     // Menambahkan event listener pada input untuk memperbarui total harga
     inputJumlahTransaksi.addEventListener('input', function() {
       var jumlahTransaksi = parseInt(inputJumlahTransaksi.value);
+      
       var harga = <?php echo $barang->harga; ?>;
       var totalHarga = jumlahTransaksi * harga;
 
@@ -260,7 +265,7 @@
       if(!totalHarga){
         totalHargaElemen.textContent = 'Total Harga: Rp.0';
       }else{
-        totalHargaElemen.textContent = 'Total Harga: Rp.' + totalHarga;
+        totalHargaElemen.textContent = 'Total Harga: Rp.' + totalHarga.toLocaleString('id-ID');
       }
       
       

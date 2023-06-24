@@ -154,7 +154,7 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Stok</p>
                     <h6 class="font-weight-bolder">
-                    {{ $totalStock }} Box
+                    {{ $totalStock }} Boks
                     </h6>
                   </div>
                 </div>
@@ -202,22 +202,23 @@
                 </div>
                 <div class="col-auto">
                   <div class="icon icon-shape bg-gradient-secondary shadow-secondary text-center rounded-circle">
-                    <i class="ni ni-box-2 text-lg opacity-10" aria-hidden="true"></i>
+                    <i class="fa fa-user text-lg opacity-10" aria-hidden="true"></i>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
+        @if (Auth::check())
         <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
           <div class="card">
             <div class="card-body p-3">
               <div class="row align-items-center">
                 <div class="col">
                   <div class="numbers">
-                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Riwayat</p>
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Pendapatan</p>
                     <h6 class="font-weight-bolder">
-                      {{$allRiwayat}} Transaksi
+                    Rp.{{number_format($totalTransaksi, 0, ',', '.') }}
                     </h6>
                   </div>
                 </div>
@@ -230,6 +231,29 @@
             </div>
           </div>
         </div>
+        @elseif(!Auth::check())
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+          <div class="card">
+            <div class="card-body p-3">
+              <div class="row align-items-center">
+                <div class="col">
+                  <div class="numbers">
+                    <p class="text-sm mb-0 text-uppercase font-weight-bold">Total Merek</p>
+                    <h6 class="font-weight-bolder">
+                    {{ $allMerek }} Merek Terdaftar
+                    </h6>
+                  </div>
+                </div>
+                <div class="col-auto">
+                  <div class="icon icon-shape bg-gradient-warning shadow-warning text-center rounded-circle">
+                    <i class="fa fa-box text-lg opacity-10" aria-hidden="true"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        @endif
       </div>
       <div class="row mt-4">
         @if (Auth::check())
@@ -436,7 +460,7 @@
                   document.write(new Date().getFullYear())
                 </script> |
                 <a href="https://www.creative-tim.com" class="font-weight-bold" target="_blank">Akhmad Ridlo Rifa'i</a>
-                from UIN Sunan Gunung Djati Bandung
+                dari UIN Sunan Gunung Djati Bandung
               </div>
             </div>
             <!-- <div class="col-lg-6">
